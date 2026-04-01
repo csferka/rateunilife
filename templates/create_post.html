@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Edit Post' if edit_mode else 'Create New Post' }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-{{ 'edit' if edit_mode else 'plus' }}"></i>
+                    {{ 'Edit Post' if edit_mode else 'Create New Post' }}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title"
+                               value="{{ post.title if post else '' }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" id="category" name="category" required>
+                            <option value="">Select a category...</option>
+                            <option value="professor" {% if post and post.category == 'professor' %}selected{% endif %}>
+                                Professor
+                            </option>
+                            <option value="course" {% if post and post.category == 'course' %}selected{% endif %}>
+                                Course
+                            </option>
+                            <option value="campus" {% if post and post.category == 'campus' %}selected{% endif %}>
+                                Campus
+                            </option>
+                            <option value="general" {% if post and post.category == 'general' %}selected{% endif %}>
+                                General
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Tags (comma-separated)</label>
+                        <input type="text" class="form-control" id="tags" name="tags"
+                               value="{{ tags_string if tags_string else '' }}"
+                               placeholder="e.g., webster, cs, programming, exam">
+                        <small class="text-muted">Add tags to make your post easier to find</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Content</label>
+                        <textarea class="form-control" id="content" name="content" rows="10" required>{{ post.content if post else '' }}</textarea>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="is_anonymous" name="is_anonymous"
+                               {% if not post or post.is_anonymous %}checked{% endif %}>
+                        <label class="form-check-label" for="is_anonymous">
+                            Post anonymously
+                        </label>
+                        <small class="text-muted d-block">Your identity will be hidden from other users</small>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-{{ 'save' if edit_mode else 'publish' }}"></i>
+                            {{ 'Update Post' if edit_mode else 'Publish Post' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

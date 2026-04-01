@@ -1,0 +1,129 @@
+/* Global Styles */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Post Cards */
+.post-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Vote Display */
+.vote-display {
+    min-width: 60px;
+}
+
+.vote-count {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: block;
+    line-height: 1.2;
+}
+
+.vote-buttons button {
+    transition: all 0.2s;
+}
+
+.vote-buttons button:hover {
+    transform: scale(1.05);
+}
+
+/* Comments */
+.comment {
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.comment:hover {
+    background-color: #e9ecef;
+}
+
+/* Tags Cloud */
+.tags-cloud .badge {
+    font-size: 0.85rem;
+    padding: 5px 10px;
+    transition: all 0.2s;
+}
+
+.tags-cloud .badge:hover {
+    background-color: #0d6efd !important;
+    transform: scale(1.05);
+}
+
+/* Sidebar */
+.list-group-item.active {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.list-group-item i {
+    width: 25px;
+}
+
+/* Cards */
+.card {
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    border-bottom: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card, .alert {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .vote-display {
+        min-width: 40px;
+    }
+
+    .vote-count {
+        font-size: 1rem;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
