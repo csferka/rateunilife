@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 import pymysql
@@ -460,11 +461,14 @@ app = create_app()
 
 
 if __name__ == '__main__':
+    host = os.getenv('HOST', '127.0.0.1')
+    port = int(os.getenv('PORT', '5000'))
+
     print("\n" + "=" * 50)
     print("Rate My Uni Life is running")
     print("=" * 50)
     print(f"Database: {app.config['SQLALCHEMY_DATABASE_URI']}")
-    print("Access the application at: http://localhost:5000")
+    print(f"Access the application at: http://{host}:{port}")
     print("Default admin login: username='admin', password='admin123'")
     print("=" * 50 + "\n")
-    app.run(debug=True)
+    app.run(host=host, port=port, debug=True)

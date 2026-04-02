@@ -20,7 +20,7 @@ class Config:
     if database_url:
         SQLALCHEMY_DATABASE_URI = database_url
     elif os.environ.get('USE_MYSQL', '').lower() in {'1', 'true', 'yes'}:
-        SQLALCHEMY_DATABASE_URI = f"mysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}/{MYSQL_DB}"
+        SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}/{MYSQL_DB}"
     else:
         SQLALCHEMY_DATABASE_URI = f"sqlite:///{BASE_DIR / 'app.db'}"
 
