@@ -32,6 +32,7 @@
                                 </li>
                                 <li>
                                     <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST" class="d-inline">
+                                        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                                         <button class="dropdown-item text-danger" onclick="return confirm('Are you sure you want to delete this post?')">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
@@ -45,11 +46,25 @@
             <div class="card-body">
                 <div class="mb-3">
                     <span class="badge bg-info">{{ post.category|capitalize }}</span>
+                    <span class="badge bg-light text-dark border"><i class="fas fa-school"></i> {{ post.university_label }}</span>
                     {% for tag in post.tags %}
-                        <span class="badge bg-secondary">#{{ tag.name }}</span>
+                        {% if not tag.name.startswith('uni-') %}
+                            <span class="badge bg-secondary">#{{ tag.name }}</span>
+                        {% endif %}
                     {% endfor %}
                 </div>
-                <p class="card-text">{{ post.content|safe|replace('\n', '<br>') }}</p>
+                {% if post.media_path %}
+                    <div class="mb-3">
+                        {% if post.media_type == 'image' %}
+                            <img src="{{ url_for('static', filename=post.media_path) }}" alt="Post media" class="img-fluid rounded post-media-detail">
+                        {% elif post.media_type == 'video' %}
+                            <video controls preload="metadata" class="w-100 rounded post-media-detail">
+                                <source src="{{ url_for('static', filename=post.media_path) }}">
+                            </video>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                <p class="card-text">{{ post.content|e|replace('\n', '<br>')|safe }}</p>
             </div>
             <div class="card-footer">
                 <div class="d-flex justify-content-between align-items-center">
@@ -81,6 +96,7 @@
             <div class="card-body">
                 {% if current_user.is_authenticated %}
                     <form action="{{ url_for('add_comment', post_id=post.id) }}" method="POST" class="mb-4">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                         <div class="mb-3">
                             <label class="form-label">Add a comment</label>
                             <textarea name="content" class="form-control" rows="3" required></textarea>
@@ -118,6 +134,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="{{ url_for('report_post', post_id=post.id) }}" method="POST">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                 <div class="modal-header">
                     <h5 class="modal-title">Report Post</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

@@ -12,6 +12,7 @@
             <div class="card-body">
                 <p>You are reporting the post: <strong>{{ post.title }}</strong></p>
                 <form method="POST">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                     <div class="mb-3">
                         <label for="reason" class="form-label">Reason for reporting</label>
                         <textarea name="reason" class="form-control" rows="5" required
@@ -27,4 +28,3 @@
     </div>
 </div>
 {% endblock %}
-

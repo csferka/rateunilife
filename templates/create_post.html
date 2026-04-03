@@ -13,7 +13,8 @@
                 </h4>
             </div>
             <div class="card-body">
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" class="form-control" id="title" name="title"
@@ -40,6 +41,26 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="university" class="form-label">University</label>
+                        <input type="text" class="form-control" id="university" name="university" list="university-options"
+                               value="{{ university_value if university_value else '' }}"
+                               placeholder="e.g., Webster University in Tashkent" required>
+                        <small class="text-muted">This marks which university your post is about.</small>
+                        <datalist id="university-options">
+                            <option value="Webster University in Tashkent">
+                            <option value="INHA University in Tashkent">
+                            <option value="Amity University Tashkent">
+                            <option value="Westminster International University in Tashkent">
+                            <option value="Tashkent State University of Economics">
+                            <option value="National University of Uzbekistan">
+                            <option value="Tashkent University of Information Technologies">
+                            <option value="Tashkent Financial Institute">
+                            <option value="MDIS Tashkent">
+                            <option value="Turin Polytechnic University in Tashkent">
+                        </datalist>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="tags" class="form-label">Tags (comma-separated)</label>
                         <input type="text" class="form-control" id="tags" name="tags"
                                value="{{ tags_string if tags_string else '' }}"
@@ -52,13 +73,24 @@
                         <textarea class="form-control" id="content" name="content" rows="10" required>{{ post.content if post else '' }}</textarea>
                     </div>
 
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="is_anonymous" name="is_anonymous"
-                               {% if not post or post.is_anonymous %}checked{% endif %}>
-                        <label class="form-check-label" for="is_anonymous">
-                            Post anonymously
-                        </label>
-                        <small class="text-muted d-block">Your identity will be hidden from other users</small>
+                    <div class="mb-3">
+                        <label for="media" class="form-label">Photo / Video (optional)</label>
+                        <input type="file" class="form-control" id="media" name="media"
+                               accept="image/png,image/jpeg,image/jpg,image/gif,image/webp,video/mp4,video/webm,video/quicktime">
+                        <small class="text-muted">Upload an image or a short video to accompany your post.</small>
+                        {% if edit_mode and post and post.media_path %}
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" id="remove_media" name="remove_media">
+                                <label class="form-check-label" for="remove_media">
+                                    Remove existing media
+                                </label>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-user-secret"></i>
+                        Posts are anonymous for the community by default.
                     </div>
 
                     <div class="d-flex justify-content-between">

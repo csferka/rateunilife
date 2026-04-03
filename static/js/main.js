@@ -1,5 +1,22 @@
 // Voting functionality
 $(document).ready(function() {
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+    if (csrfToken) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-Token': csrfToken
+            }
+        });
+
+        $('form[method="POST"], form[method="post"]').each(function() {
+            const form = $(this);
+            if (form.find('input[name="_csrf_token"]').length === 0) {
+                form.append(`<input type="hidden" name="_csrf_token" value="${csrfToken}">`);
+            }
+        });
+    }
+
     $('.vote-btn').click(function() {
         const button = $(this);
         const postId = button.data('post-id');

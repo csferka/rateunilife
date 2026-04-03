@@ -45,6 +45,7 @@ class RateMyUniLifeTestCase(unittest.TestCase):
             data={
                 'title': title,
                 'category': 'course',
+                'university': 'Webster University in Tashkent',
                 'tags': 'webster, cs',
                 'content': 'This course has a heavy workload but useful labs.',
                 'is_anonymous': 'on',

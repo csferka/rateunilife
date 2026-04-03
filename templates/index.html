@@ -13,11 +13,11 @@
             <div class="card-body">
                 <h6>Sort</h6>
                 <div class="list-group mb-3">
-                    <a href="{{ url_for('index', category=current_category, tag=current_tag, search=search, sort='recent') }}"
+                    <a href="{{ url_for('index', category=current_category, tag=current_tag, university=current_university, search=search, sort='recent') }}"
                        class="list-group-item list-group-item-action {% if current_sort != 'top' %}active{% endif %}">
                         <i class="fas fa-clock"></i> Most Recent
                     </a>
-                    <a href="{{ url_for('index', category=current_category, tag=current_tag, search=search, sort='top') }}"
+                    <a href="{{ url_for('index', category=current_category, tag=current_tag, university=current_university, search=search, sort='top') }}"
                        class="list-group-item list-group-item-action {% if current_sort == 'top' %}active{% endif %}">
                         <i class="fas fa-fire"></i> Top Rated
                     </a>
@@ -25,27 +25,41 @@
 
                 <h6>Category</h6>
                 <div class="list-group mb-3">
-                    <a href="{{ url_for('index') }}" class="list-group-item list-group-item-action {% if not current_category %}active{% endif %}">
+                    <a href="{{ url_for('index', university=current_university, sort=current_sort) }}" class="list-group-item list-group-item-action {% if not current_category %}active{% endif %}">
                         All
                     </a>
-                    <a href="{{ url_for('index', category='professor') }}" class="list-group-item list-group-item-action {% if current_category == 'professor' %}active{% endif %}">
+                    <a href="{{ url_for('index', category='professor', university=current_university, sort=current_sort) }}" class="list-group-item list-group-item-action {% if current_category == 'professor' %}active{% endif %}">
                         <i class="fas fa-chalkboard-user"></i> Professors
                     </a>
-                    <a href="{{ url_for('index', category='course') }}" class="list-group-item list-group-item-action {% if current_category == 'course' %}active{% endif %}">
+                    <a href="{{ url_for('index', category='course', university=current_university, sort=current_sort) }}" class="list-group-item list-group-item-action {% if current_category == 'course' %}active{% endif %}">
                         <i class="fas fa-book"></i> Courses
                     </a>
-                    <a href="{{ url_for('index', category='campus') }}" class="list-group-item list-group-item-action {% if current_category == 'campus' %}active{% endif %}">
+                    <a href="{{ url_for('index', category='campus', university=current_university, sort=current_sort) }}" class="list-group-item list-group-item-action {% if current_category == 'campus' %}active{% endif %}">
                         <i class="fas fa-university"></i> Campus
                     </a>
-                    <a href="{{ url_for('index', category='general') }}" class="list-group-item list-group-item-action {% if current_category == 'general' %}active{% endif %}">
+                    <a href="{{ url_for('index', category='general', university=current_university, sort=current_sort) }}" class="list-group-item list-group-item-action {% if current_category == 'general' %}active{% endif %}">
                         <i class="fas fa-comments"></i> General
                     </a>
+                </div>
+
+                <h6>University</h6>
+                <div class="list-group mb-3">
+                    <a href="{{ url_for('index', category=current_category, tag=current_tag, sort=current_sort, search=search) }}"
+                       class="list-group-item list-group-item-action {% if not current_university %}active{% endif %}">
+                        All Universities
+                    </a>
+                    {% for uni in university_filters %}
+                        <a href="{{ url_for('index', category=current_category, university=uni.slug, tag=current_tag, sort=current_sort, search=search) }}"
+                           class="list-group-item list-group-item-action {% if current_university == uni.slug %}active{% endif %}">
+                            <i class="fas fa-school"></i> {{ uni.label }}
+                        </a>
+                    {% endfor %}
                 </div>
 
                 <h6>Popular Tags</h6>
                 <div class="tags-cloud">
                     {% for tag in tags %}
-                        <a href="{{ url_for('index', tag=tag.name) }}" class="badge bg-secondary text-decoration-none me-1 mb-1">
+                        <a href="{{ url_for('index', tag=tag.name, category=current_category, university=current_university, sort=current_sort) }}" class="badge bg-secondary text-decoration-none me-1 mb-1">
                             #{{ tag.name }}
                         </a>
                     {% else %}
@@ -56,6 +70,10 @@
                 <hr>
 
                 <form action="{{ url_for('index') }}" method="get" class="mt-3">
+                    {% if current_category %}<input type="hidden" name="category" value="{{ current_category }}">{% endif %}
+                    {% if current_tag %}<input type="hidden" name="tag" value="{{ current_tag }}">{% endif %}
+                    {% if current_university %}<input type="hidden" name="university" value="{{ current_university }}">{% endif %}
+                    <input type="hidden" name="sort" value="{{ current_sort }}">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="Search posts..." value="{{ search or '' }}">
                         <button class="btn btn-primary" type="submit">
@@ -91,10 +109,24 @@
                                 </h5>
                                 <div class="mb-2">
                                     <span class="badge bg-info">{{ post.category|capitalize }}</span>
+                                    <span class="badge bg-light text-dark border"><i class="fas fa-school"></i> {{ post.university_label }}</span>
                                     {% for tag in post.tags %}
-                                        <span class="badge bg-secondary">#{{ tag.name }}</span>
+                                        {% if not tag.name.startswith('uni-') %}
+                                            <span class="badge bg-secondary">#{{ tag.name }}</span>
+                                        {% endif %}
                                     {% endfor %}
                                 </div>
+                                {% if post.media_path %}
+                                    <div class="mb-3">
+                                        {% if post.media_type == 'image' %}
+                                            <img src="{{ url_for('static', filename=post.media_path) }}" alt="Post media" class="img-fluid rounded post-media-thumb">
+                                        {% elif post.media_type == 'video' %}
+                                            <video controls preload="metadata" class="w-100 rounded post-media-thumb">
+                                                <source src="{{ url_for('static', filename=post.media_path) }}">
+                                            </video>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
                                 <p class="card-text">{{ post.content[:200] }}{% if post.content|length > 200 %}...{% endif %}</p>
                                 <small class="text-muted">
                                     <i class="fas fa-user"></i> {{ post.author_label_for(current_user) }} •
@@ -118,6 +150,24 @@
             <div class="alert alert-info">
                 No posts yet. {% if current_user.is_authenticated %}Be the first to <a href="{{ url_for('create_post') }}">create a post</a>!{% endif %}
             </div>
+        {% endif %}
+
+        {% if total_pages > 1 %}
+            <nav aria-label="Post pages" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+                        <a class="page-link" href="{{ url_for('index', page=page-1, category=current_category, tag=current_tag, university=current_university, search=search, sort=current_sort) }}">Previous</a>
+                    </li>
+                    {% for p in range(1, total_pages + 1) %}
+                        <li class="page-item {% if p == page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('index', page=p, category=current_category, tag=current_tag, university=current_university, search=search, sort=current_sort) }}">{{ p }}</a>
+                        </li>
+                    {% endfor %}
+                    <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
+                        <a class="page-link" href="{{ url_for('index', page=page+1, category=current_category, tag=current_tag, university=current_university, search=search, sort=current_sort) }}">Next</a>
+                    </li>
+                </ul>
+            </nav>
         {% endif %}
     </div>
 </div>

@@ -4,6 +4,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
+UNIVERSITY_TAG_PREFIX = 'uni-'
 
 # Association table for many-to-many relationship between posts and tags
 post_tags = db.Table('post_tags',
@@ -45,6 +46,8 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     category = db.Column(db.String(50), nullable=False)  # professor / course / campus / general
     is_anonymous = db.Column(db.Boolean, nullable=False, default=True)
+    media_path = db.Column(db.String(255), nullable=True)
+    media_type = db.Column(db.String(20), nullable=True)  # image / video
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=True, onupdate=datetime.utcnow)
 
@@ -67,10 +70,23 @@ class Post(db.Model):
         return self.author.username
 
     def author_label_for(self, viewer=None):
-        if viewer and getattr(viewer, 'is_authenticated', False):
-            if viewer.is_admin or viewer.id == self.author_id:
-                return self.author.username
+        if viewer and getattr(viewer, 'is_authenticated', False) and viewer.id == self.author_id:
+            return self.author.username
         return self.display_author
+
+    @property
+    def university_tag(self):
+        for tag in self.tags:
+            if tag.name.startswith(UNIVERSITY_TAG_PREFIX):
+                return tag.name[len(UNIVERSITY_TAG_PREFIX):]
+        return None
+
+    @property
+    def university_label(self):
+        slug = self.university_tag
+        if not slug:
+            return 'Unknown University'
+        return slug.replace('-', ' ').title()
 
     def __repr__(self):
         return f'<Post {self.title}>'
