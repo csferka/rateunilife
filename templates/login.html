@@ -1,30 +1,32 @@
 {% extends "base.html" %}
 
-{% block title %}Login{% endblock %}
+{% block title %}{{ _('Login') }}{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-6 mx-auto">
         <div class="card">
             <div class="card-header bg-primary text-white">
-                <h4 class="mb-0"><i class="fas fa-sign-in-alt"></i> Login</h4>
+                <h4 class="mb-0"><i class="fas fa-sign-in-alt"></i> {{ _('Login') }}</h4>
             </div>
             <div class="card-body">
                 <form method="POST">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                     <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
+                        <label for="username" class="form-label">{{ _('Username') }}</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="{{ _('Enter your username') }}" required>
+                        <small class="text-muted">{{ _('Use the username you registered with.') }}</small>
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                        <label for="password" class="form-label">{{ _('Password') }}</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="{{ _('Enter your password') }}" required>
+                        <small class="text-muted">{{ _('Passwords are case-sensitive.') }}</small>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                    <button type="submit" class="btn btn-primary w-100">{{ _('Login') }}</button>
                 </form>
                 <hr>
                 <p class="text-center mb-0">
-                    Don't have an account? <a href="{{ url_for('register') }}">Register here</a>
+                    {{ _("Don't have an account?") }} <a href="{{ url_for('auth.register') }}">{{ _('Register here') }}</a>
                 </p>
             </div>
         </div>

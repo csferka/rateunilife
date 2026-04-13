@@ -1,0 +1,247 @@
+{
+  "Rate My Uni Life": "Universitetingizni baholang",
+  "Honest student reviews across universities in Uzbekistan": "O'zbekistondagi universitetlar bo'yicha talabalar uchun halol sharhlar",
+  "Home": "Bosh sahifa",
+  "New Post": "Yangi post",
+  "Profile": "Profil",
+  "Admin": "Admin",
+  "Logout": "Chiqish",
+  "Login": "Kirish",
+  "Register": "Ro'yxatdan o'tish",
+  "Built for students navigating university life.": "Universitet hayotini tushunishga harakat qilayotgan talabalar uchun yaratilgan.",
+  "Back to top": "Tepaga qaytish",
+  "Filters": "Filtrlar",
+  "Filter": "Filtr",
+  "Sort": "Saralash",
+  "Most Recent": "Eng yangi",
+  "Top Rated": "Eng yaxshi",
+  "Category": "Kategoriya",
+  "All": "Barchasi",
+  "Professors": "O'qituvchilar",
+  "Courses": "Kurslar",
+  "Campus": "Kampus",
+  "General": "Umumiy",
+  "University": "Universitet",
+  "All Universities": "Barcha universitetlar",
+  "Popular Tags": "Mashhur teglar",
+  "No tags yet": "Hali teglar yo'q",
+  "Search posts...": "Postlarni qidiring...",
+  "Search": "Qidirish",
+  "Recent Posts": "So'nggi postlar",
+  "Showing %(count)s of %(total)s posts": "%(total)s ta postdan %(count)s tasi ko'rsatilmoqda",
+  "Professor": "O'qituvchi",
+  "Course": "Kurs",
+  "Post media": "Post media fayli",
+  "Read more →": "Batafsil o'qish →",
+  "votes": "ovoz",
+  "comments": "izoh",
+  "No posts found": "Postlar topilmadi",
+  "Try changing your filters or search terms to discover more student stories.": "Ko'proq talabalar tajribalarini topish uchun filtr yoki qidiruv so'zlarini o'zgartirib ko'ring.",
+  "Clear filters": "Filtrlarni tozalash",
+  "Post pages": "Post sahifalari",
+  "Previous": "Oldingi",
+  "Next": "Keyingi",
+  "Edit Post": "Postni tahrirlash",
+  "Create New Post": "Yangi post yaratish",
+  "Title": "Sarlavha",
+  "Give your post a clear, specific title": "Post uchun aniq va tushunarli sarlavha yozing",
+  "Example: Data Structures workload at Webster": "Masalan: Websterdagi Data Structures yuklamasi",
+  "Select a category...": "Kategoriyani tanlang...",
+  "Choose the topic that best matches your experience.": "Tajribangizga eng mos mavzuni tanlang.",
+  "Start typing your university name": "Universitet nomini yozishni boshlang",
+  "Tags (comma-separated)": "Teglar (vergul bilan ajrating)",
+  "Example: webster, cs, exam, dorm": "Masalan: webster, cs, imtihon, yotoqxona",
+  "Add a few helpful tags so other students can find this post faster.": "Boshqa talabalar bu postni tezroq topishi uchun bir nechta foydali teg qo'shing.",
+  "Content": "Matn",
+  "Share your honest experience, tips, and context for other students.": "Boshqa talabalar uchun samimiy tajribangiz, maslahatlaringiz va kontekstni yozing.",
+  "Be respectful and specific. Maximum 2000 characters.": "Hurmat bilan va aniq yozing. Maksimum 2000 ta belgi.",
+  "Photo / Video (optional)": "Rasm / Video (ixtiyoriy)",
+  "Add a supporting image or short video if it helps explain your post.": "Agar postni tushuntirishga yordam bersa, rasm yoki qisqa video qo'shing.",
+  "Remove existing media": "Mavjud media faylni o'chirish",
+  "Posts are anonymous for the community by default.": "Postlar jamiyat uchun avtomatik ravishda anonim bo'ladi.",
+  "Cancel": "Bekor qilish",
+  "Update Post": "Postni yangilash",
+  "Publish Post": "Postni joylash",
+  "Updated": "Yangilangan",
+  "Edit": "Tahrirlash",
+  "Are you sure you want to delete this post?": "Haqiqatan ham bu postni o'chirmoqchimisiz?",
+  "Delete": "O'chirish",
+  "Upvote": "Yuqoriga ovoz",
+  "Downvote": "Pastga ovoz",
+  "Report": "Shikoyat",
+  "Comments": "Izohlar",
+  "Add a comment": "Izoh qoldirish",
+  "Share something helpful or ask a follow-up question.": "Foydali fikr yozing yoki qo'shimcha savol bering.",
+  "Post Comment": "Izohni yuborish",
+  "No comments yet. Be the first to comment!": "Hali izohlar yo'q. Birinchi bo'lib izoh qoldiring!",
+  "Report Post": "Post haqida shikoyat",
+  "Reason for reporting": "Shikoyat sababi",
+  "Please explain why you are reporting this post...": "Nega bu post haqida shikoyat qilayotganingizni tushuntiring...",
+  "Submit Report": "Shikoyatni yuborish",
+  "Username": "Foydalanuvchi nomi",
+  "Enter your username": "Foydalanuvchi nomingizni kiriting",
+  "Use the username you registered with.": "Ro'yxatdan o'tishda ishlatgan foydalanuvchi nomidan foydalaning.",
+  "Password": "Parol",
+  "Enter your password": "Parolingizni kiriting",
+  "Passwords are case-sensitive.": "Parolda katta-kichik harf farqi bor.",
+  "Don't have an account?": "Hisobingiz yo'qmi?",
+  "Register here": "Bu yerda ro'yxatdan o'ting",
+  "Choose a username": "Foydalanuvchi nomini tanlang",
+  "Pick something easy for you to remember.": "Eslash oson bo'lgan nom tanlang.",
+  "Email": "Email",
+  "Enter your email address": "Email manzilingizni kiriting",
+  "Your email is used for login and account identification.": "Email kirish va hisobni aniqlash uchun ishlatiladi.",
+  "Create a password with at least 8 characters": "Kamida 8 belgidan iborat parol yarating",
+  "Use at least 8 characters for better security.": "Xavfsizlik uchun kamida 8 ta belgi ishlating.",
+  "Confirm Password": "Parolni tasdiqlang",
+  "Repeat your password": "Parolni qayta kiriting",
+  "Make sure both password fields match.": "Ikkala parol maydoni bir xil ekanini tekshiring.",
+  "Already have an account?": "Hisobingiz bormi?",
+  "Login here": "Bu yerda kiring",
+  "You are reporting the post:": "Siz quyidagi post haqida shikoyat qilyapsiz:",
+  "Please provide details about why this post violates community guidelines...": "Bu post nega platforma qoidalarini buzishini batafsil yozing...",
+  "Clear, specific reports help admins review content faster.": "Aniq va tushunarli shikoyatlar adminlarga kontentni tezroq ko'rib chiqishga yordam beradi.",
+  "My Profile": "Mening profilim",
+  "Member since": "A'zo bo'lgan sana",
+  "Administrator": "Administrator",
+  "My Posts": "Mening postlarim",
+  "Anonymous": "Anonim",
+  "You haven't created any posts yet.": "Siz hali post yaratmagansiz.",
+  "My Recent Comments": "Mening so'nggi izohlarim",
+  "On:": "Qaysi postda:",
+  "You haven't commented yet.": "Siz hali izoh qoldirmagansiz.",
+  "Admin Dashboard": "Admin paneli",
+  "Welcome to Admin Dashboard": "Admin paneliga xush kelibsiz",
+  "Users": "Foydalanuvchilar",
+  "Posts": "Postlar",
+  "Reports": "Shikoyatlar",
+  "Pending Reports": "Kutilayotgan shikoyatlar",
+  "Reported Post:": "Shikoyat qilingan post:",
+  "Actual Author:": "Haqiqiy muallif:",
+  "Reason:": "Sabab:",
+  "Reported by:": "Shikoyat qilgan:",
+  "Delete Post": "Postni o'chirish",
+  "Dismiss Report": "Shikoyatni rad etish",
+  "No pending reports.": "Kutilayotgan shikoyatlar yo'q.",
+  "Recently Reviewed Reports": "Yaqinda ko'rib chiqilgan shikoyatlar",
+  "Resolved": "Hal qilingan",
+  "Dismissed": "Rad etilgan",
+  "Deleted post": "O'chirilgan post",
+  "No reviewed reports yet.": "Hali ko'rib chiqilgan shikoyatlar yo'q.",
+  "Actions": "Amallar",
+  "User": "Foydalanuvchi",
+  "Remove Admin": "Adminlikni olib tashlash",
+  "Make Admin": "Admin qilish",
+  "Delete user %(username)s?": "%(username)s foydalanuvchisini o'chirmoqchimisiz?",
+  "All Posts": "Barcha postlar",
+  "Author": "Muallif",
+  "Created": "Yaratilgan",
+  "Access Denied": "Kirish taqiqlangan",
+  "You don't have permission to access this page.": "Sizda bu sahifaga kirish huquqi yo'q.",
+  "Go Home": "Bosh sahifaga qaytish",
+  "Page Not Found": "Sahifa topilmadi",
+  "The page you're looking for doesn't exist or has been moved.": "Siz izlayotgan sahifa mavjud emas yoki ko'chirilgan.",
+  "Anonymous Student": "Anonim talaba",
+  "All fields are required.": "Barcha maydonlar to'ldirilishi shart.",
+  "Password must be at least 8 characters long.": "Parol kamida 8 belgidan iborat bo'lishi kerak.",
+  "Passwords do not match.": "Parollar mos emas.",
+  "Username already exists.": "Bunday foydalanuvchi nomi allaqachon mavjud.",
+  "Email already registered.": "Bu email allaqachon ro'yxatdan o'tgan.",
+  "Registration successful. Please log in.": "Ro'yxatdan o'tish muvaffaqiyatli. Iltimos, tizimga kiring.",
+  "Too many failed login attempts. Please wait a few minutes and try again.": "Kirish urinishlari juda ko'p bo'ldi. Bir necha daqiqa kutib qayta urinib ko'ring.",
+  "Welcome back, %(username)s.": "Qaytganingiz bilan, %(username)s.",
+  "Invalid username or password.": "Noto'g'ri foydalanuvchi nomi yoki parol.",
+  "You have been logged out.": "Siz tizimdan chiqdingiz.",
+  "Please fill in all required fields with a valid category and university.": "Iltimos, barcha majburiy maydonlarni to'g'ri kategoriya va universitet bilan to'ldiring.",
+  "Post content must be 2000 characters or fewer.": "Post matni 2000 belgidan oshmasligi kerak.",
+  "Unsupported media format. Use images (png/jpg/jpeg/gif/webp) or videos (mp4/webm/mov/m4v).": "Qo'llab-quvvatlanmaydigan media format. Rasm (png/jpg/jpeg/gif/webp) yoki video (mp4/webm/mov/m4v) ishlating.",
+  "Your post has been published.": "Postingiz joylandi.",
+  "You do not have permission to edit this post.": "Sizda bu postni tahrirlash huquqi yo'q.",
+  "Post updated successfully.": "Post muvaffaqiyatli yangilandi.",
+  "You do not have permission to delete this post.": "Sizda bu postni o'chirish huquqi yo'q.",
+  "Post deleted successfully.": "Post muvaffaqiyatli o'chirildi.",
+  "Comment cannot be empty.": "Izoh bo'sh bo'lishi mumkin emas.",
+  "Comment added successfully.": "Izoh muvaffaqiyatli qo'shildi.",
+  "Invalid vote type.": "Noto'g'ri ovoz turi.",
+  "Your vote has been recorded.": "Ovozingiz saqlandi.",
+  "Your vote has been removed.": "Ovozingiz olib tashlandi.",
+  "Your vote has been updated.": "Ovozingiz yangilandi.",
+  "Please provide a reason for reporting.": "Iltimos, shikoyat sababini kiriting.",
+  "You have already reported this post.": "Siz bu post haqida allaqachon shikoyat qilgansiz.",
+  "Thank you. An admin will review this report.": "Rahmat. Admin bu shikoyatni ko'rib chiqadi.",
+  "Report has been processed.": "Shikoyat ko'rib chiqildi.",
+  "You cannot remove your own admin privileges.": "O'zingizning admin huquqlaringizni olib tashlay olmaysiz.",
+  "granted": "berildi",
+  "revoked": "bekor qilindi",
+  "Admin privileges %(status)s for %(username)s.": "%(username)s uchun admin huquqi %(status)s.",
+  "You cannot delete your own account.": "O'zingizning hisobingizni o'chira olmaysiz.",
+  "User %(username)s has been deleted.": "%(username)s foydalanuvchisi o'chirildi."
+  ,"Communities": "Hamjamiyatlar"
+  ,"No communities yet": "Hali hamjamiyatlar yo'q"
+  ,"Find My Uni": "Menga mos universitetni top"
+  ,"Community": "Hamjamiyat"
+  ,"You are viewing %(university)s community": "Siz hozir %(university)s hamjamiyatini ko'ryapsiz"
+  ,"University Community": "Universitet hamjamiyati"
+  ,"Community Members": "Hamjamiyat a'zolari"
+  ,"Join Community": "Hamjamiyatga qo'shilish"
+  ,"Top tags in this community": "Bu hamjamiyatdagi mashhur teglar"
+  ,"Read Reviews": "Sharhlarni o'qish"
+  ,"No one has posted in this community yet. Start the conversation.": "Bu hamjamiyatda hali hech kim post yozmagan. Suhbatni siz boshlang."
+  ,"Community Leaderboard": "Hamjamiyat reytingi"
+  ,"No ranked posts yet.": "Hali reytingli postlar yo'q."
+  ,"Explore More": "Yana ko'rish"
+  ,"Open Gallery": "Galereyani ochish"
+  ,"Gallery": "Galereya"
+  ,"Moments, spaces, and student life shared by the community.": "Hamjamiyat ulashgan lahzalar, joylar va talabalik hayoti."
+  ,"Upload Media": "Media yuklash"
+  ,"Community media": "Hamjamiyat media fayli"
+  ,"No gallery posts yet": "Hali galereya postlari yo'q"
+  ,"Be the first to share a photo or video from this university community.": "Bu universitet hamjamiyatidan birinchi bo'lib foto yoki video ulashing."
+  ,"Choose a file": "Faylni tanlang"
+  ,"Images and short videos up to %(limit)s MB are supported.": "%(limit)s MB gacha bo'lgan rasmlar va qisqa videolar qo'llab-quvvatlanadi."
+  ,"Caption": "Sarlavha matni"
+  ,"Add a short caption for your upload.": "Yuklamangiz uchun qisqa izoh yozing."
+  ,"Share anonymously": "Anonim ulashish"
+  ,"What matters most to you?": "Siz uchun eng muhimi nima?"
+  ,"Academic reputation": "Akademik obro'"
+  ,"Campus life": "Kampus hayoti"
+  ,"Affordability": "Hamyonboplik"
+  ,"International exposure": "Xalqaro imkoniyatlar"
+  ,"Class size": "Guruh hajmi"
+  ,"How do you prefer to learn?": "Siz qanday o'qishni afzal ko'rasiz?"
+  ,"Lectures": "Ma'ruzalar"
+  ,"Hands-on projects": "Amaliy loyihalar"
+  ,"Online flexibility": "Onlayn moslashuvchanlik"
+  ,"Small seminars": "Kichik seminarlar"
+  ,"What's your budget range?": "Byudjet oralig'ingiz qanday?"
+  ,"Under $2,000/year": "Yiliga $2,000 dan kam"
+  ,"$2,000-$5,000/year": "Yiliga $2,000-$5,000"
+  ,"$5,000-$10,000/year": "Yiliga $5,000-$10,000"
+  ,"No limit": "Cheklov yo'q"
+  ,"What language do you prefer classes in?": "Darslarni qaysi tilda o'qishni istaysiz?"
+  ,"English only": "Faqat inglizcha"
+  ,"Uzbek only": "Faqat o'zbekcha"
+  ,"Both English and Uzbek": "Inglizcha va o'zbekcha"
+  ,"What field are you interested in?": "Qaysi yo'nalishga qiziqasiz?"
+  ,"Technology & Engineering": "Texnologiya va muhandislik"
+  ,"Business & Economics": "Biznes va iqtisod"
+  ,"Law & Social Sciences": "Huquq va ijtimoiy fanlar"
+  ,"Arts & Humanities": "San'at va gumanitar fanlar"
+  ,"Medicine & Health": "Tibbiyot va sog'liq"
+  ,"Answer a few quick questions and get your best-fit universities.": "Bir nechta qisqa savolga javob bering va sizga mos universitetlarni oling."
+  ,"questions": "savol"
+  ,"Back": "Orqaga"
+  ,"See My Matches": "Mos universitetlarni ko'rish"
+  ,"Your Top Matches": "Sizga eng mos universitetlar"
+  ,"View Community": "Hamjamiyatni ko'rish"
+  ,"Retake Quiz": "Testni qayta topshirish"
+  ,"Share your result": "Natijani ulashish"
+  ,"You joined the %(university)s community.": "Siz %(university)s hamjamiyatiga qo'shildingiz."
+  ,"You can upload only one media item every 10 minutes.": "Har 10 daqiqada faqat bitta media yuklashingiz mumkin."
+  ,"Please choose a photo or video to upload.": "Yuklash uchun rasm yoki video tanlang."
+  ,"Your media has been added to the community gallery.": "Media faylingiz hamjamiyat galereyasiga qo'shildi."
+  ,"You do not have permission to delete this media.": "Sizda bu media faylni o'chirish huquqi yo'q."
+  ,"Media deleted successfully.": "Media fayl muvaffaqiyatli o'chirildi."
+  ,"Please answer all quiz questions before submitting.": "Yuborishdan oldin barcha savollarga javob bering."
+  ,"Result copied to clipboard.": "Natija clipboardga nusxalandi."
+}

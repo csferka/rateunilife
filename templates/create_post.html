@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ 'Edit Post' if edit_mode else 'Create New Post' }}{% endblock %}
+{% block title %}{{ _('Edit Post') if edit_mode else _('Create New Post') }}{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -9,43 +9,37 @@
             <div class="card-header bg-primary text-white">
                 <h4 class="mb-0">
                     <i class="fas fa-{{ 'edit' if edit_mode else 'plus' }}"></i>
-                    {{ 'Edit Post' if edit_mode else 'Create New Post' }}
+                    {{ _('Edit Post') if edit_mode else _('Create New Post') }}
                 </h4>
             </div>
             <div class="card-body">
                 <form method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                     <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
+                        <label for="title" class="form-label">{{ _('Title') }}</label>
                         <input type="text" class="form-control" id="title" name="title"
-                               value="{{ post.title if post else '' }}" required>
+                               value="{{ post.title if post else '' }}" placeholder="{{ _('Give your post a clear, specific title') }}" required>
+                        <small class="text-muted">{{ _('Example: Data Structures workload at Webster') }}</small>
                     </div>
 
                     <div class="mb-3">
-                        <label for="category" class="form-label">Category</label>
+                        <label for="category" class="form-label">{{ _('Category') }}</label>
                         <select class="form-select" id="category" name="category" required>
-                            <option value="">Select a category...</option>
-                            <option value="professor" {% if post and post.category == 'professor' %}selected{% endif %}>
-                                Professor
-                            </option>
-                            <option value="course" {% if post and post.category == 'course' %}selected{% endif %}>
-                                Course
-                            </option>
-                            <option value="campus" {% if post and post.category == 'campus' %}selected{% endif %}>
-                                Campus
-                            </option>
-                            <option value="general" {% if post and post.category == 'general' %}selected{% endif %}>
-                                General
-                            </option>
+                            <option value="">{{ _('Select a category...') }}</option>
+                            <option value="professor" {% if post and post.category == 'professor' %}selected{% endif %}>{{ _('Professor') }}</option>
+                            <option value="course" {% if post and post.category == 'course' %}selected{% endif %}>{{ _('Course') }}</option>
+                            <option value="campus" {% if post and post.category == 'campus' %}selected{% endif %}>{{ _('Campus') }}</option>
+                            <option value="general" {% if post and post.category == 'general' %}selected{% endif %}>{{ _('General') }}</option>
                         </select>
+                        <small class="text-muted">{{ _('Choose the topic that best matches your experience.') }}</small>
                     </div>
 
                     <div class="mb-3">
-                        <label for="university" class="form-label">University</label>
+                        <label for="university" class="form-label">{{ _('University') }}</label>
                         <input type="text" class="form-control" id="university" name="university" list="university-options"
                                value="{{ university_value if university_value else '' }}"
-                               placeholder="e.g., Webster University in Tashkent" required>
-                        <small class="text-muted">This marks which university your post is about.</small>
+                               placeholder="{{ _('Start typing your university name') }}" required>
+                        <small class="text-muted">{{ _('Start typing your university name') }}</small>
                         <datalist id="university-options">
                             <option value="Webster University in Tashkent">
                             <option value="INHA University in Tashkent">
@@ -61,28 +55,32 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="tags" class="form-label">Tags (comma-separated)</label>
+                        <label for="tags" class="form-label">{{ _('Tags (comma-separated)') }}</label>
                         <input type="text" class="form-control" id="tags" name="tags"
                                value="{{ tags_string if tags_string else '' }}"
-                               placeholder="e.g., webster, cs, programming, exam">
-                        <small class="text-muted">Add tags to make your post easier to find</small>
+                               placeholder="{{ _('Example: webster, cs, exam, dorm') }}">
+                        <small class="text-muted">{{ _('Add a few helpful tags so other students can find this post faster.') }}</small>
                     </div>
 
                     <div class="mb-3">
-                        <label for="content" class="form-label">Content</label>
-                        <textarea class="form-control" id="content" name="content" rows="10" required>{{ post.content if post else '' }}</textarea>
+                        <label for="content" class="form-label">{{ _('Content') }}</label>
+                        <textarea class="form-control" id="content" name="content" rows="10" maxlength="2000" placeholder="{{ _('Share your honest experience, tips, and context for other students.') }}" required>{{ post.content if post else '' }}</textarea>
+                        <div class="d-flex justify-content-between mt-1">
+                            <small class="text-muted">{{ _('Be respectful and specific. Maximum 2000 characters.') }}</small>
+                            <small class="text-muted"><span id="contentCounter">0</span>/2000</small>
+                        </div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="media" class="form-label">Photo / Video (optional)</label>
+                        <label for="media" class="form-label">{{ _('Photo / Video (optional)') }}</label>
                         <input type="file" class="form-control" id="media" name="media"
                                accept="image/png,image/jpeg,image/jpg,image/gif,image/webp,video/mp4,video/webm,video/quicktime">
-                        <small class="text-muted">Upload an image or a short video to accompany your post.</small>
+                        <small class="text-muted">{{ _('Add a supporting image or short video if it helps explain your post.') }}</small>
                         {% if edit_mode and post and post.media_path %}
                             <div class="form-check mt-2">
                                 <input class="form-check-input" type="checkbox" id="remove_media" name="remove_media">
                                 <label class="form-check-label" for="remove_media">
-                                    Remove existing media
+                                    {{ _('Remove existing media') }}
                                 </label>
                             </div>
                         {% endif %}
@@ -90,14 +88,14 @@
 
                     <div class="alert alert-info">
                         <i class="fas fa-user-secret"></i>
-                        Posts are anonymous for the community by default.
+                        {{ _('Posts are anonymous for the community by default.') }}
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-{{ 'save' if edit_mode else 'publish' }}"></i>
-                            {{ 'Update Post' if edit_mode else 'Publish Post' }}
+                            <i class="fas fa-{{ 'save' if edit_mode else 'paper-plane' }}"></i>
+                            {{ _('Update Post') if edit_mode else _('Publish Post') }}
                         </button>
                     </div>
                 </form>

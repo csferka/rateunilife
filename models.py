@@ -1,6 +1,11 @@
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
+
 from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func, select
+from sqlalchemy.orm import column_property
+
+from flask_babel import gettext as _
 from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
@@ -20,6 +25,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), nullable=False, unique=True)
     password_hash = db.Column(db.String(255), nullable=False)
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
+    university_slug = db.Column(db.String(100), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     # Relationships
@@ -27,6 +33,7 @@ class User(UserMixin, db.Model):
     comments = db.relationship('Comment', backref='author', lazy=True, cascade='all, delete-orphan')
     votes = db.relationship('Vote', backref='user', lazy=True, cascade='all, delete-orphan')
     reports = db.relationship('Report', foreign_keys='Report.reporter_id', backref='reporter', lazy=True)
+    media_posts = db.relationship('MediaPost', backref='author', lazy=True, cascade='all, delete-orphan')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -59,14 +66,12 @@ class Post(db.Model):
 
     @property
     def vote_count(self):
-        upvotes = sum(1 for vote in self.votes if vote.vote_type == 1)
-        downvotes = sum(1 for vote in self.votes if vote.vote_type == -1)
-        return upvotes - downvotes
+        return self.score or 0
 
     @property
     def display_author(self):
         if self.is_anonymous:
-            return "Anonymous Student"
+            return _("Anonymous Student")
         return self.author.username
 
     def author_label_for(self, viewer=None):
@@ -102,7 +107,7 @@ class Comment(db.Model):
 
     @property
     def display_author(self):
-        return self.author.username
+        return _("Anonymous Student")
 
     def __repr__(self):
         return f'<Comment {self.id}>'
@@ -146,3 +151,42 @@ class Report(db.Model):
 
     def __repr__(self):
         return f'<Report {self.id} - {self.status}>'
+
+
+class MediaPost(db.Model):
+    __tablename__ = "media_posts"
+
+    id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    university_slug = db.Column(db.String(100), nullable=False)
+    caption = db.Column(db.String(300), nullable=True)
+    media_path = db.Column(db.String(255), nullable=False)
+    media_type = db.Column(db.String(20), nullable=False)
+    is_anonymous = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    @property
+    def display_author(self):
+        if self.is_anonymous:
+            return _("Anonymous Student")
+        return self.author.username
+
+    @property
+    def university_label(self):
+        return self.university_slug.replace("-", " ").title()
+
+    def author_label_for(self, viewer=None):
+        if viewer and getattr(viewer, "is_authenticated", False) and viewer.id == self.author_id:
+            return self.author.username
+        return self.display_author
+
+    def __repr__(self):
+        return f"<MediaPost {self.id}>"
+
+
+Post.score = column_property(
+    select(func.coalesce(func.sum(Vote.vote_type), 0))
+    .where(Vote.post_id == Post.id)
+    .correlate_except(Vote)
+    .scalar_subquery()
+)

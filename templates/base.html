@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ current_language }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{% block title %}Rate My Uni Life{% endblock %}</title>
+    <title>{% block title %}{{ _('Rate My Uni Life') }}{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,48 +15,81 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark site-navbar">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
-                <i class="fas fa-star-of-life"></i> Rate My Uni Life
+            <a class="navbar-brand d-flex flex-column" href="{{ url_for('main.index') }}">
+                <span><i class="fas fa-star-of-life"></i> {{ _('Rate My Uni Life') }}</span>
+                <small class="brand-subtitle">{{ _('Honest student reviews across universities in Uzbekistan') }}</small>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                        <a class="nav-link" href="{{ url_for('main.index') }}">{{ _('Home') }}</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            {{ _('Communities') }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            {% if communities %}
+                                {% for community in communities %}
+                                    <li>
+                                        <a class="dropdown-item" href="{{ url_for('community.university_feed', slug=community.slug) }}">
+                                            {{ community.label }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <li><span class="dropdown-item-text text-muted">{{ _('No communities yet') }}</span></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-accent" href="{{ url_for('community.match') }}">
+                            {{ _('Find My Uni') }} <span class="badge text-bg-warning">🎯</span>
+                        </a>
                     </li>
                     {% if current_user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('create_post') }}">
-                                <i class="fas fa-pen"></i> New Post
+                            <a class="nav-link" href="{{ url_for('posts.create_post') }}">
+                                <i class="fas fa-pen"></i> {{ _('New Post') }}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('profile') }}">
-                                <i class="fas fa-user"></i> Profile
+                            <a class="nav-link" href="{{ url_for('profile.profile') }}">
+                                <i class="fas fa-user"></i> {{ _('Profile') }}
                             </a>
                         </li>
                         {% if current_user.is_admin %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
-                                    <i class="fas fa-shield-alt"></i> Admin
+                                <a class="nav-link" href="{{ url_for('admin.admin_dashboard') }}">
+                                    <i class="fas fa-shield-alt"></i> {{ _('Admin') }}
                                 </a>
                             </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('logout') }}">
-                                <i class="fas fa-sign-out-alt"></i> Logout
+                            <a class="nav-link" href="{{ url_for('auth.logout') }}">
+                                <i class="fas fa-sign-out-alt"></i> {{ _('Logout') }}
                             </a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                            <a class="nav-link" href="{{ url_for('auth.login') }}">{{ _('Login') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                            <a class="nav-link" href="{{ url_for('auth.register') }}">{{ _('Register') }}</a>
                         </li>
                     {% endif %}
+                    <li class="nav-item ms-lg-3">
+                        <div class="language-switcher">
+                            <a href="{{ url_for('main.set_language', lang_code='en', next=request.full_path.rstrip('?')) }}"
+                               class="{% if current_language == 'en' %}active{% endif %}">EN</a>
+                            <span>|</span>
+                            <a href="{{ url_for('main.set_language', lang_code='uz', next=request.full_path.rstrip('?')) }}"
+                               class="{% if current_language == 'uz' %}active{% endif %}">UZ</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -66,7 +99,7 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ category if category != 'message' else 'info' }} alert-dismissible fade show">
+                    <div class="alert alert-{{ category if category != 'message' else 'info' }} alert-dismissible fade show auto-dismiss-alert" role="alert">
                         {{ message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
@@ -77,9 +110,13 @@
         {% block content %}{% endblock %}
     </main>
 
+    <button type="button" class="btn btn-primary back-to-top" id="backToTop" aria-label="{{ _('Back to top') }}">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <footer class="site-footer text-center py-3 mt-5">
         <div class="container">
-            <small>&copy; 2024 Rate My Uni Life. All rights reserved.</small>
+            <small>&copy; 2026 {{ _('Rate My Uni Life') }}. {{ _('Built for students navigating university life.') }}</small>
         </div>
     </footer>
 

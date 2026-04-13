@@ -1,63 +1,63 @@
 {% extends "base.html" %}
 
-{% block title %}My Profile{% endblock %}
+{% block title %}{{ _('Profile') }}{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">
-                <h4 class="mb-0"><i class="fas fa-user"></i> My Profile</h4>
+                <h4 class="mb-0"><i class="fas fa-user"></i> {{ _('My Profile') }}</h4>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong>Username:</strong> {{ current_user.username }}</p>
-                        <p><strong>Email:</strong> {{ current_user.email }}</p>
-                        <p><strong>Member since:</strong> {{ current_user.created_at.strftime('%Y-%m-%d') }}</p>
+                        <p><strong>{{ _('Username') }}:</strong> {{ current_user.username }}</p>
+                        <p><strong>{{ _('Email') }}:</strong> {{ current_user.email }}</p>
+                        <p><strong>{{ _('Member since') }}:</strong> {{ current_user.created_at.strftime('%Y-%m-%d') }}</p>
                         {% if current_user.is_admin %}
-                            <span class="badge bg-danger">Administrator</span>
+                            <span class="badge bg-danger">{{ _('Administrator') }}</span>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </div>
 
-        <h4>My Posts</h4>
+        <h4>{{ _('My Posts') }}</h4>
         {% if user_posts %}
             {% for post in user_posts %}
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h5 class="card-title">
-                                <a href="{{ url_for('view_post', post_id=post.id) }}">{{ post.title }}</a>
+                                <a href="{{ url_for('posts.view_post', post_id=post.id) }}">{{ post.title }}</a>
                                 {% if post.is_anonymous %}
-                                    <span class="badge bg-secondary">Anonymous</span>
+                                    <span class="badge bg-secondary">{{ _('Anonymous') }}</span>
                                 {% endif %}
                             </h5>
                             <small class="text-muted">{{ post.created_at.strftime('%Y-%m-%d') }}</small>
                         </div>
                         <p class="card-text">{{ post.content[:150] }}...</p>
                         <div class="text-muted">
-                            <small><i class="fas fa-comment"></i> {{ post.comments|length }} comments</small>
-                            <small class="ms-3"><i class="fas fa-chart-line"></i> {{ post.vote_count }} votes</small>
+                            <small><i class="fas fa-comment"></i> {{ post.comments|length }} {{ _('comments') }}</small>
+                            <small class="ms-3"><i class="fas fa-chart-line"></i> {{ post.vote_count }} {{ _('votes') }}</small>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         {% else %}
-            <div class="alert alert-info">You haven't created any posts yet.</div>
+            <div class="alert alert-info">{{ _("You haven't created any posts yet.") }}</div>
         {% endif %}
 
-        <h4 class="mt-4">My Recent Comments</h4>
+        <h4 class="mt-4">{{ _('My Recent Comments') }}</h4>
         {% if user_comments %}
             {% for comment in user_comments[:5] %}
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <strong>On:</strong>
-                                <a href="{{ url_for('view_post', post_id=comment.post.id) }}">{{ comment.post.title }}</a>
+                                <strong>{{ _('On:') }}</strong>
+                                <a href="{{ url_for('posts.view_post', post_id=comment.post.id) }}">{{ comment.post.title }}</a>
                             </div>
                             <small class="text-muted">{{ comment.created_at.strftime('%Y-%m-%d') }}</small>
                         </div>
@@ -66,7 +66,7 @@
                 </div>
             {% endfor %}
         {% else %}
-            <div class="alert alert-light border">You haven't commented yet.</div>
+            <div class="alert alert-light border">{{ _("You haven't commented yet.") }}</div>
         {% endif %}
     </div>
 </div>

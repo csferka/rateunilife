@@ -1,0 +1,247 @@
+{
+  "Rate My Uni Life": "Rate My Uni Life",
+  "Honest student reviews across universities in Uzbekistan": "Honest student reviews across universities in Uzbekistan",
+  "Home": "Home",
+  "New Post": "New Post",
+  "Profile": "Profile",
+  "Admin": "Admin",
+  "Logout": "Logout",
+  "Login": "Login",
+  "Register": "Register",
+  "Built for students navigating university life.": "Built for students navigating university life.",
+  "Back to top": "Back to top",
+  "Filters": "Filters",
+  "Filter": "Filter",
+  "Sort": "Sort",
+  "Most Recent": "Most Recent",
+  "Top Rated": "Top Rated",
+  "Category": "Category",
+  "All": "All",
+  "Professors": "Professors",
+  "Courses": "Courses",
+  "Campus": "Campus",
+  "General": "General",
+  "University": "University",
+  "All Universities": "All Universities",
+  "Popular Tags": "Popular Tags",
+  "No tags yet": "No tags yet",
+  "Search posts...": "Search posts...",
+  "Search": "Search",
+  "Recent Posts": "Recent Posts",
+  "Showing %(count)s of %(total)s posts": "Showing %(count)s of %(total)s posts",
+  "Professor": "Professor",
+  "Course": "Course",
+  "Post media": "Post media",
+  "Read more →": "Read more →",
+  "votes": "votes",
+  "comments": "comments",
+  "No posts found": "No posts found",
+  "Try changing your filters or search terms to discover more student stories.": "Try changing your filters or search terms to discover more student stories.",
+  "Clear filters": "Clear filters",
+  "Post pages": "Post pages",
+  "Previous": "Previous",
+  "Next": "Next",
+  "Edit Post": "Edit Post",
+  "Create New Post": "Create New Post",
+  "Title": "Title",
+  "Give your post a clear, specific title": "Give your post a clear, specific title",
+  "Example: Data Structures workload at Webster": "Example: Data Structures workload at Webster",
+  "Select a category...": "Select a category...",
+  "Choose the topic that best matches your experience.": "Choose the topic that best matches your experience.",
+  "Start typing your university name": "Start typing your university name",
+  "Tags (comma-separated)": "Tags (comma-separated)",
+  "Example: webster, cs, exam, dorm": "Example: webster, cs, exam, dorm",
+  "Add a few helpful tags so other students can find this post faster.": "Add a few helpful tags so other students can find this post faster.",
+  "Content": "Content",
+  "Share your honest experience, tips, and context for other students.": "Share your honest experience, tips, and context for other students.",
+  "Be respectful and specific. Maximum 2000 characters.": "Be respectful and specific. Maximum 2000 characters.",
+  "Photo / Video (optional)": "Photo / Video (optional)",
+  "Add a supporting image or short video if it helps explain your post.": "Add a supporting image or short video if it helps explain your post.",
+  "Remove existing media": "Remove existing media",
+  "Posts are anonymous for the community by default.": "Posts are anonymous for the community by default.",
+  "Cancel": "Cancel",
+  "Update Post": "Update Post",
+  "Publish Post": "Publish Post",
+  "Updated": "Updated",
+  "Edit": "Edit",
+  "Are you sure you want to delete this post?": "Are you sure you want to delete this post?",
+  "Delete": "Delete",
+  "Upvote": "Upvote",
+  "Downvote": "Downvote",
+  "Report": "Report",
+  "Comments": "Comments",
+  "Add a comment": "Add a comment",
+  "Share something helpful or ask a follow-up question.": "Share something helpful or ask a follow-up question.",
+  "Post Comment": "Post Comment",
+  "No comments yet. Be the first to comment!": "No comments yet. Be the first to comment!",
+  "Report Post": "Report Post",
+  "Reason for reporting": "Reason for reporting",
+  "Please explain why you are reporting this post...": "Please explain why you are reporting this post...",
+  "Submit Report": "Submit Report",
+  "Username": "Username",
+  "Enter your username": "Enter your username",
+  "Use the username you registered with.": "Use the username you registered with.",
+  "Password": "Password",
+  "Enter your password": "Enter your password",
+  "Passwords are case-sensitive.": "Passwords are case-sensitive.",
+  "Don't have an account?": "Don't have an account?",
+  "Register here": "Register here",
+  "Choose a username": "Choose a username",
+  "Pick something easy for you to remember.": "Pick something easy for you to remember.",
+  "Email": "Email",
+  "Enter your email address": "Enter your email address",
+  "Your email is used for login and account identification.": "Your email is used for login and account identification.",
+  "Create a password with at least 8 characters": "Create a password with at least 8 characters",
+  "Use at least 8 characters for better security.": "Use at least 8 characters for better security.",
+  "Confirm Password": "Confirm Password",
+  "Repeat your password": "Repeat your password",
+  "Make sure both password fields match.": "Make sure both password fields match.",
+  "Already have an account?": "Already have an account?",
+  "Login here": "Login here",
+  "You are reporting the post:": "You are reporting the post:",
+  "Please provide details about why this post violates community guidelines...": "Please provide details about why this post violates community guidelines...",
+  "Clear, specific reports help admins review content faster.": "Clear, specific reports help admins review content faster.",
+  "My Profile": "My Profile",
+  "Member since": "Member since",
+  "Administrator": "Administrator",
+  "My Posts": "My Posts",
+  "Anonymous": "Anonymous",
+  "You haven't created any posts yet.": "You haven't created any posts yet.",
+  "My Recent Comments": "My Recent Comments",
+  "On:": "On:",
+  "You haven't commented yet.": "You haven't commented yet.",
+  "Admin Dashboard": "Admin Dashboard",
+  "Welcome to Admin Dashboard": "Welcome to Admin Dashboard",
+  "Users": "Users",
+  "Posts": "Posts",
+  "Reports": "Reports",
+  "Pending Reports": "Pending Reports",
+  "Reported Post:": "Reported Post:",
+  "Actual Author:": "Actual Author:",
+  "Reason:": "Reason:",
+  "Reported by:": "Reported by:",
+  "Delete Post": "Delete Post",
+  "Dismiss Report": "Dismiss Report",
+  "No pending reports.": "No pending reports.",
+  "Recently Reviewed Reports": "Recently Reviewed Reports",
+  "Resolved": "Resolved",
+  "Dismissed": "Dismissed",
+  "Deleted post": "Deleted post",
+  "No reviewed reports yet.": "No reviewed reports yet.",
+  "Actions": "Actions",
+  "User": "User",
+  "Remove Admin": "Remove Admin",
+  "Make Admin": "Make Admin",
+  "Delete user %(username)s?": "Delete user %(username)s?",
+  "All Posts": "All Posts",
+  "Author": "Author",
+  "Created": "Created",
+  "Access Denied": "Access Denied",
+  "You don't have permission to access this page.": "You don't have permission to access this page.",
+  "Go Home": "Go Home",
+  "Page Not Found": "Page Not Found",
+  "The page you're looking for doesn't exist or has been moved.": "The page you're looking for doesn't exist or has been moved.",
+  "Anonymous Student": "Anonymous Student",
+  "All fields are required.": "All fields are required.",
+  "Password must be at least 8 characters long.": "Password must be at least 8 characters long.",
+  "Passwords do not match.": "Passwords do not match.",
+  "Username already exists.": "Username already exists.",
+  "Email already registered.": "Email already registered.",
+  "Registration successful. Please log in.": "Registration successful. Please log in.",
+  "Too many failed login attempts. Please wait a few minutes and try again.": "Too many failed login attempts. Please wait a few minutes and try again.",
+  "Welcome back, %(username)s.": "Welcome back, %(username)s.",
+  "Invalid username or password.": "Invalid username or password.",
+  "You have been logged out.": "You have been logged out.",
+  "Please fill in all required fields with a valid category and university.": "Please fill in all required fields with a valid category and university.",
+  "Post content must be 2000 characters or fewer.": "Post content must be 2000 characters or fewer.",
+  "Unsupported media format. Use images (png/jpg/jpeg/gif/webp) or videos (mp4/webm/mov/m4v).": "Unsupported media format. Use images (png/jpg/jpeg/gif/webp) or videos (mp4/webm/mov/m4v).",
+  "Your post has been published.": "Your post has been published.",
+  "You do not have permission to edit this post.": "You do not have permission to edit this post.",
+  "Post updated successfully.": "Post updated successfully.",
+  "You do not have permission to delete this post.": "You do not have permission to delete this post.",
+  "Post deleted successfully.": "Post deleted successfully.",
+  "Comment cannot be empty.": "Comment cannot be empty.",
+  "Comment added successfully.": "Comment added successfully.",
+  "Invalid vote type.": "Invalid vote type.",
+  "Your vote has been recorded.": "Your vote has been recorded.",
+  "Your vote has been removed.": "Your vote has been removed.",
+  "Your vote has been updated.": "Your vote has been updated.",
+  "Please provide a reason for reporting.": "Please provide a reason for reporting.",
+  "You have already reported this post.": "You have already reported this post.",
+  "Thank you. An admin will review this report.": "Thank you. An admin will review this report.",
+  "Report has been processed.": "Report has been processed.",
+  "You cannot remove your own admin privileges.": "You cannot remove your own admin privileges.",
+  "granted": "granted",
+  "revoked": "revoked",
+  "Admin privileges %(status)s for %(username)s.": "Admin privileges %(status)s for %(username)s.",
+  "You cannot delete your own account.": "You cannot delete your own account.",
+  "User %(username)s has been deleted.": "User %(username)s has been deleted."
+  ,"Communities": "Communities"
+  ,"No communities yet": "No communities yet"
+  ,"Find My Uni": "Find My Uni"
+  ,"Community": "Community"
+  ,"You are viewing %(university)s community": "You are viewing %(university)s community"
+  ,"University Community": "University Community"
+  ,"Community Members": "Community Members"
+  ,"Join Community": "Join Community"
+  ,"Top tags in this community": "Top tags in this community"
+  ,"Read Reviews": "Read Reviews"
+  ,"No one has posted in this community yet. Start the conversation.": "No one has posted in this community yet. Start the conversation."
+  ,"Community Leaderboard": "Community Leaderboard"
+  ,"No ranked posts yet.": "No ranked posts yet."
+  ,"Explore More": "Explore More"
+  ,"Open Gallery": "Open Gallery"
+  ,"Gallery": "Gallery"
+  ,"Moments, spaces, and student life shared by the community.": "Moments, spaces, and student life shared by the community."
+  ,"Upload Media": "Upload Media"
+  ,"Community media": "Community media"
+  ,"No gallery posts yet": "No gallery posts yet"
+  ,"Be the first to share a photo or video from this university community.": "Be the first to share a photo or video from this university community."
+  ,"Choose a file": "Choose a file"
+  ,"Images and short videos up to %(limit)s MB are supported.": "Images and short videos up to %(limit)s MB are supported."
+  ,"Caption": "Caption"
+  ,"Add a short caption for your upload.": "Add a short caption for your upload."
+  ,"Share anonymously": "Share anonymously"
+  ,"What matters most to you?": "What matters most to you?"
+  ,"Academic reputation": "Academic reputation"
+  ,"Campus life": "Campus life"
+  ,"Affordability": "Affordability"
+  ,"International exposure": "International exposure"
+  ,"Class size": "Class size"
+  ,"How do you prefer to learn?": "How do you prefer to learn?"
+  ,"Lectures": "Lectures"
+  ,"Hands-on projects": "Hands-on projects"
+  ,"Online flexibility": "Online flexibility"
+  ,"Small seminars": "Small seminars"
+  ,"What's your budget range?": "What's your budget range?"
+  ,"Under $2,000/year": "Under $2,000/year"
+  ,"$2,000-$5,000/year": "$2,000-$5,000/year"
+  ,"$5,000-$10,000/year": "$5,000-$10,000/year"
+  ,"No limit": "No limit"
+  ,"What language do you prefer classes in?": "What language do you prefer classes in?"
+  ,"English only": "English only"
+  ,"Uzbek only": "Uzbek only"
+  ,"Both English and Uzbek": "Both English and Uzbek"
+  ,"What field are you interested in?": "What field are you interested in?"
+  ,"Technology & Engineering": "Technology & Engineering"
+  ,"Business & Economics": "Business & Economics"
+  ,"Law & Social Sciences": "Law & Social Sciences"
+  ,"Arts & Humanities": "Arts & Humanities"
+  ,"Medicine & Health": "Medicine & Health"
+  ,"Answer a few quick questions and get your best-fit universities.": "Answer a few quick questions and get your best-fit universities."
+  ,"questions": "questions"
+  ,"Back": "Back"
+  ,"See My Matches": "See My Matches"
+  ,"Your Top Matches": "Your Top Matches"
+  ,"View Community": "View Community"
+  ,"Retake Quiz": "Retake Quiz"
+  ,"Share your result": "Share your result"
+  ,"You joined the %(university)s community.": "You joined the %(university)s community."
+  ,"You can upload only one media item every 10 minutes.": "You can upload only one media item every 10 minutes."
+  ,"Please choose a photo or video to upload.": "Please choose a photo or video to upload."
+  ,"Your media has been added to the community gallery.": "Your media has been added to the community gallery."
+  ,"You do not have permission to delete this media.": "You do not have permission to delete this media."
+  ,"Media deleted successfully.": "Media deleted successfully."
+  ,"Please answer all quiz questions before submitting.": "Please answer all quiz questions before submitting."
+  ,"Result copied to clipboard.": "Result copied to clipboard."
+}

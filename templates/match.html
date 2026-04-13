@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Find My Uni') }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <div class="card mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h1 class="mb-1">{{ _('Find My Uni') }}</h1>
+                        <p class="text-muted mb-0">{{ _('Answer a few quick questions and get your best-fit universities.') }}</p>
+                    </div>
+                    <span class="badge text-bg-light">{{ questions|length }} {{ _('questions') }}</span>
+                </div>
+
+                <div class="progress mb-4 quiz-progress" role="progressbar">
+                    <div class="progress-bar" id="quizProgressBar" style="width: 20%"></div>
+                </div>
+
+                <form method="POST" id="matchWizard">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                    {% for question in questions %}
+                        <section class="quiz-step {% if not loop.first %}d-none{% endif %}" data-step="{{ loop.index0 }}">
+                            <h3 class="mb-3">{{ _(question.label) }}</h3>
+                            <div class="row g-3">
+                                {% for value, label in question.options %}
+                                    <div class="col-md-6">
+                                        <label class="quiz-option-card card h-100">
+                                            <div class="card-body">
+                                                <input type="radio" class="d-none" name="{{ question.key }}" value="{{ value }}" {% if answers.get(question.key) == value %}checked{% endif %}>
+                                                <span class="quiz-option-label">{{ _(label) }}</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </section>
+                    {% endfor %}
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="button" class="btn btn-outline-secondary" id="prevStep">{{ _('Back') }}</button>
+                        <button type="button" class="btn btn-primary" id="nextStep">{{ _('Next') }}</button>
+                        <button type="submit" class="btn btn-primary d-none" id="submitQuiz">{{ _('See My Matches') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% if results %}
+            <div class="card">
+                <div class="card-header bg-primary text-white">{{ _('Your Top Matches') }}</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        {% for result in results %}
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5>{{ result.name }}</h5>
+                                        <div class="progress mb-3" role="progressbar">
+                                            <div class="progress-bar" style="width: {{ result.percentage }}%">{{ result.percentage }}%</div>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <a class="btn btn-outline-primary" href="{{ url_for('community.university_feed', slug=result.slug) }}">{{ _('View Community') }}</a>
+                                            <a class="btn btn-outline-secondary" href="{{ url_for('main.index', university=result.slug) }}">{{ _('Read Reviews') }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex justify-content-center gap-2 mt-4 flex-wrap">
+                        <a href="{{ url_for('community.match') }}" class="btn btn-secondary">{{ _('Retake Quiz') }}</a>
+                        <button type="button" class="btn btn-outline-primary" id="shareQuizResult"
+                                data-share-text="{% for result in results %}{{ result.name }} - {{ result.percentage }}%{% if not loop.last %}, {% endif %}{% endfor %}">
+                            {{ _('Share your result') }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

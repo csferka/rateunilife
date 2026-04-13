@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}{{ university_name }} - {{ _('Gallery') }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <h1 class="mb-1">{{ university_name }} {{ _('Gallery') }}</h1>
+        <p class="text-muted mb-0">{{ _('Moments, spaces, and student life shared by the community.') }}</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('community.university_feed', slug=university_slug) }}" class="btn btn-outline-primary">{{ _('View Community') }}</a>
+        {% if current_user.is_authenticated %}
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">{{ _('Upload Media') }}</button>
+        {% endif %}
+    </div>
+</div>
+
+<div class="gallery-grid">
+    {% for item in media_posts %}
+        <div class="gallery-card card mb-4 break-inside-avoid" data-bs-toggle="modal" data-bs-target="#mediaModal{{ item.id }}">
+            <div class="card-body">
+                {% if item.media_type == 'image' %}
+                    <img src="{{ url_for('static', filename=item.media_path) }}" alt="{{ item.caption or _('Community media') }}" class="img-fluid rounded mb-3">
+                {% else %}
+                    <video class="w-100 rounded mb-3" preload="metadata">
+                        <source src="{{ url_for('static', filename=item.media_path) }}">
+                    </video>
+                {% endif %}
+                {% if item.caption %}
+                    <p class="mb-2">{{ item.caption }}</p>
+                {% endif %}
+                <small class="text-muted d-block">{{ item.author_label_for(current_user) }}</small>
+                <small class="text-muted">{{ item.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+            </div>
+        </div>
+
+        <div class="modal fade" id="mediaModal{{ item.id }}" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ university_name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% if item.media_type == 'image' %}
+                            <img src="{{ url_for('static', filename=item.media_path) }}" alt="{{ item.caption or _('Community media') }}" class="img-fluid rounded">
+                        {% else %}
+                            <video controls class="w-100 rounded">
+                                <source src="{{ url_for('static', filename=item.media_path) }}">
+                            </video>
+                        {% endif %}
+                        {% if item.caption %}
+                            <p class="mt-3 mb-1">{{ item.caption }}</p>
+                        {% endif %}
+                        <small class="text-muted">{{ item.author_label_for(current_user) }} · {{ item.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                    </div>
+                    {% if current_user.is_authenticated and (current_user.id == item.author_id or current_user.is_admin) %}
+                        <div class="modal-footer">
+                            <form method="POST" action="{{ url_for('community.delete_media', media_id=item.id) }}">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                                <button class="btn btn-danger" type="submit">{{ _('Delete') }}</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="card empty-state-card">
+            <div class="card-body text-center py-5">
+                <h4>{{ _('No gallery posts yet') }}</h4>
+                <p class="text-muted">{{ _('Be the first to share a photo or video from this university community.') }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% if current_user.is_authenticated %}
+    <div class="modal fade" id="uploadModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="{{ url_for('community.upload_gallery_media', slug=university_slug) }}" enctype="multipart/form-data">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ _('Upload Media') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">{{ _('Choose a file') }}</label>
+                            <input type="file" class="form-control" name="media" accept="image/png,image/jpeg,image/jpg,image/gif,image/webp,video/mp4,video/webm,video/quicktime" required>
+                            <small class="text-muted">{{ _('Images and short videos up to %(limit)s MB are supported.', limit=max_upload_mb) }}</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">{{ _('Caption') }}</label>
+                            <textarea class="form-control" name="caption" maxlength="300" rows="3" placeholder="{{ _('Add a short caption for your upload.') }}"></textarea>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="is_anonymous" id="galleryAnonymous" checked>
+                            <label class="form-check-label" for="galleryAnonymous">{{ _('Share anonymously') }}</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">{{ _('Cancel') }}</button>
+                        <button class="btn btn-primary" type="submit">{{ _('Upload Media') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,6 +1,8 @@
-// Voting functionality
 $(document).ready(function() {
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
+    const backToTopButton = $('#backToTop');
+    const contentField = $('#content');
+    const contentCounter = $('#contentCounter');
 
     if (csrfToken) {
         $.ajaxSetup({
@@ -30,12 +32,10 @@ $(document).ready(function() {
             },
             success: function(response) {
                 if (response.success) {
-                    // Update vote count display
                     const voteContainer = button.closest('.vote-buttons');
                     const voteCountSpan = voteContainer.find('.vote-count-display');
                     voteCountSpan.text(response.vote_count);
 
-                    // Update button styles
                     const upvoteBtn = voteContainer.find('.vote-btn[data-vote-type="1"]');
                     const downvoteBtn = voteContainer.find('.vote-btn[data-vote-type="-1"]');
                     upvoteBtn.removeClass('btn-success').addClass('btn-outline-success');
@@ -60,14 +60,12 @@ $(document).ready(function() {
         });
     });
 
-    // Auto-dismiss alerts after 5 seconds
     setTimeout(function() {
-        $('.alert').fadeOut('slow', function() {
+        $('.auto-dismiss-alert').fadeOut('slow', function() {
             $(this).remove();
         });
-    }, 5000);
+    }, 4000);
 
-    // Tag search autocomplete
     $('#tags').on('input', function() {
         const query = $(this).val();
         const lastComma = query.lastIndexOf(',');
@@ -76,39 +74,98 @@ $(document).ready(function() {
         if (lastTag.length > 1) {
             $.ajax({
                 url: '/api/tags/search',
-                data: { q: lastTag },
-                success: function(tags) {
-                    // Simple autocomplete suggestion
-                    if (tags.length > 0 && lastTag !== tags[0].name) {
-                        const suggestion = lastComma === -1 ?
-                            tags[0].name :
-                            query.substring(0, lastComma + 1) + ' ' + tags[0].name;
-
-                        // Show suggestion (you can implement a dropdown)
-                        console.log('Suggested tag:', tags[0].name);
-                    }
-                }
+                data: { q: lastTag }
             });
         }
     });
 
-    // Confirm delete actions
     $('form[action*="delete"]').submit(function(e) {
-        if (!confirm('Are you sure you want to delete this item? This action cannot be undone.')) {
+        const confirmed = $(this).data('confirmed');
+        if (!confirmed && !confirm('Are you sure you want to delete this item? This action cannot be undone.')) {
             e.preventDefault();
         }
     });
+
+    function updateContentCounter() {
+        if (!contentField.length || !contentCounter.length) {
+            return;
+        }
+        contentCounter.text(contentField.val().length);
+    }
+
+    updateContentCounter();
+    contentField.on('input', updateContentCounter);
+
+    $(window).on('scroll', function() {
+        if ($(window).scrollTop() > 300) {
+            backToTopButton.addClass('show');
+        } else {
+            backToTopButton.removeClass('show');
+        }
+    });
+
+    backToTopButton.on('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    const quizSteps = $('.quiz-step');
+    if (quizSteps.length) {
+        let currentStep = 0;
+        const progressBar = $('#quizProgressBar');
+        const prevStep = $('#prevStep');
+        const nextStep = $('#nextStep');
+        const submitQuiz = $('#submitQuiz');
+
+        function renderQuizStep() {
+            quizSteps.addClass('d-none').eq(currentStep).removeClass('d-none');
+            const progress = ((currentStep + 1) / quizSteps.length) * 100;
+            progressBar.css('width', `${progress}%`);
+            prevStep.toggleClass('d-none', currentStep === 0);
+            nextStep.toggleClass('d-none', currentStep === quizSteps.length - 1);
+            submitQuiz.toggleClass('d-none', currentStep !== quizSteps.length - 1);
+        }
+
+        function currentAnswered() {
+            return quizSteps.eq(currentStep).find('input[type="radio"]:checked').length > 0;
+        }
+
+        $('.quiz-option-card').on('click', function() {
+            const input = $(this).find('input[type="radio"]');
+            input.prop('checked', true).trigger('change');
+            $(this).closest('.row').find('.quiz-option-card').removeClass('selected');
+            $(this).addClass('selected');
+        });
+
+        $('input[type="radio"]').each(function() {
+            if ($(this).is(':checked')) {
+                $(this).closest('.quiz-option-card').addClass('selected');
+            }
+        });
+
+        nextStep.on('click', function() {
+            if (!currentAnswered()) {
+                alert('Please select an answer before continuing.');
+                return;
+            }
+            currentStep = Math.min(currentStep + 1, quizSteps.length - 1);
+            renderQuizStep();
+        });
+
+        prevStep.on('click', function() {
+            currentStep = Math.max(currentStep - 1, 0);
+            renderQuizStep();
+        });
+
+        renderQuizStep();
+    }
+
+    $('#shareQuizResult').on('click', function() {
+        const shareText = $(this).data('share-text');
+        if (!shareText) {
+            return;
+        }
+        navigator.clipboard.writeText(shareText).then(function() {
+            alert('Result copied to clipboard.');
+        });
+    });
 });
-
-// Add timestamp to posts
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diff = Math.floor((now - date) / 1000);
-
-    if (diff < 60) return `${diff} seconds ago`;
-    if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
-    if (diff < 604800) return `${Math.floor(diff / 86400)} days ago`;
-    return date.toLocaleDateString();
-}
