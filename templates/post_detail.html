@@ -3,27 +3,36 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8 mx-auto">
-        <div class="card mb-4">
-            <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h3 class="mb-0">{{ post.title }}</h3>
-                        <small class="text-muted">
-                            <i class="fas fa-user"></i> {{ post.author_label_for(current_user) }} •
-                            <i class="fas fa-calendar"></i> {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}
+<div class="row justify-content-center">
+    <div class="col-xl-9 col-lg-10">
+        <article class="card post-detail-card mb-4">
+            <div class="post-detail-hero">
+                <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+                    <div class="post-detail-heading">
+                        <div class="post-detail-badges">
+                            <span class="post-pill post-pill-category">{{ _(post.category|capitalize) }}</span>
+                            <span class="post-pill post-pill-school"><i class="fas fa-school"></i> {{ post.university_label }}</span>
+                            {% for tag in post.tags %}
+                                {% if not tag.name.startswith('uni-') %}
+                                    <span class="post-pill post-pill-tag">#{{ tag.name }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <h1 class="post-detail-title">{{ post.title }}</h1>
+                        <div class="post-meta-row">
+                            <span><i class="fas fa-user"></i> {{ post.author_label_for(current_user) }}</span>
+                            <span><i class="fas fa-calendar"></i> {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
                             {% if post.updated_at %}
-                                <i class="fas fa-edit ms-2"></i> {{ _('Updated') }}: {{ post.updated_at.strftime('%Y-%m-%d') }}
+                                <span><i class="fas fa-pen"></i> {{ _('Updated') }}: {{ post.updated_at.strftime('%Y-%m-%d') }}</span>
                             {% endif %}
-                        </small>
+                        </div>
                     </div>
                     {% if current_user.is_authenticated and (current_user.id == post.author_id or current_user.is_admin) %}
                         <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fas fa-ellipsis-v"></i>
+                            <button class="btn btn-sm btn-light post-detail-menu" data-bs-toggle="dropdown" aria-label="{{ _('Post actions') }}">
+                                <i class="fas fa-ellipsis"></i>
                             </button>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
                                     <a class="dropdown-item" href="{{ url_for('posts.edit_post', post_id=post.id) }}">
                                         <i class="fas fa-edit"></i> {{ _('Edit') }}
@@ -42,18 +51,9 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="card-body">
-                <div class="mb-3">
-                    <span class="badge bg-info">{{ _(post.category|capitalize) }}</span>
-                    <span class="badge bg-light text-dark border"><i class="fas fa-school"></i> {{ post.university_label }}</span>
-                    {% for tag in post.tags %}
-                        {% if not tag.name.startswith('uni-') %}
-                            <span class="badge bg-secondary">#{{ tag.name }}</span>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+            <div class="card-body post-detail-body">
                 {% if post.media_path %}
-                    <div class="mb-3">
+                    <div class="post-detail-media-wrap">
                         {% if post.media_type == 'image' %}
                             <img src="{{ url_for('static', filename=post.media_path) }}" alt="{{ _('Post media') }}" class="img-fluid rounded post-media-detail">
                         {% elif post.media_type == 'video' %}
@@ -63,43 +63,43 @@
                         {% endif %}
                     </div>
                 {% endif %}
-                <p class="card-text">{{ post.content|e|replace('\n', '<br>')|safe }}</p>
+                <div class="post-detail-content">{{ post.content|format_post_content }}</div>
             </div>
-            <div class="card-footer">
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                    <div class="vote-buttons">
+            <div class="card-footer post-detail-footer">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <div class="vote-buttons post-vote-bar">
                         <button class="btn btn-sm {% if user_vote == 1 %}btn-success{% else %}btn-outline-success{% endif %} vote-btn" data-post-id="{{ post.id }}" data-vote-type="1">
                             <i class="fas fa-thumbs-up"></i> {{ _('Upvote') }}
                         </button>
-                        <span class="vote-count-display mx-2 fw-bold">{{ post.vote_count }}</span>
+                        <span class="vote-count-display post-vote-count">{{ post.vote_count }}</span>
                         <button class="btn btn-sm {% if user_vote == -1 %}btn-danger{% else %}btn-outline-danger{% endif %} vote-btn" data-post-id="{{ post.id }}" data-vote-type="-1">
                             <i class="fas fa-thumbs-down"></i> {{ _('Downvote') }}
                         </button>
                     </div>
                     {% if current_user.is_authenticated %}
-                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#reportModal">
+                        <button class="btn btn-sm btn-outline-warning post-report-btn" data-bs-toggle="modal" data-bs-target="#reportModal">
                             <i class="fas fa-flag"></i> {{ _('Report') }}
                         </button>
                     {% endif %}
                 </div>
             </div>
-        </div>
+        </article>
 
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0">
+        <section class="card post-comments-card">
+            <div class="card-header post-comments-header">
+                <h5 class="mb-0 post-comments-title">
                     <i class="fas fa-comments"></i> {{ _('Comments') }} ({{ comments|length }})
                 </h5>
             </div>
-            <div class="card-body">
+            <div class="card-body post-comments-body">
                 {% if current_user.is_authenticated %}
                     <form action="{{ url_for('posts.add_comment', post_id=post.id) }}" method="POST" class="mb-4">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                         <div class="mb-3">
-                            <label class="form-label">{{ _('Add a comment') }}</label>
-                            <textarea name="content" class="form-control" rows="3" placeholder="{{ _('Share something helpful or ask a follow-up question.') }}" required></textarea>
+                            <label class="form-label post-comment-label">{{ _('Add a comment') }}</label>
+                            <textarea name="content" class="form-control post-comment-input" rows="3" placeholder="{{ _('Share something helpful or ask a follow-up question.') }}" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary post-comment-submit">
                             <i class="fas fa-paper-plane"></i> {{ _('Post Comment') }}
                         </button>
                     </form>
@@ -108,22 +108,22 @@
 
                 {% if comments %}
                     {% for comment in comments %}
-                        <div class="comment mb-3">
-                            <div class="d-flex justify-content-between">
-                                <strong>
+                        <div class="comment post-comment-card mb-3">
+                            <div class="d-flex justify-content-between gap-3 flex-wrap">
+                                <strong class="post-comment-author">
                                     <i class="fas fa-user-circle"></i> {{ comment.display_author }}
                                 </strong>
                                 <small class="text-muted">{{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
                             </div>
-                            <p class="mt-2 mb-0">{{ comment.content }}</p>
+                            <p class="mt-2 mb-0 post-comment-text">{{ comment.content }}</p>
                         </div>
                         {% if not loop.last %}<hr>{% endif %}
                     {% endfor %}
                 {% else %}
-                    <p class="text-muted">{{ _('No comments yet. Be the first to comment!') }}</p>
+                    <p class="text-muted mb-0">{{ _('No comments yet. Be the first to comment!') }}</p>
                 {% endif %}
             </div>
-        </div>
+        </section>
     </div>
 </div>
 

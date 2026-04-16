@@ -1,12 +1,14 @@
 import os
 import secrets
+import re
 
 import pymysql
 from flask import Flask, abort, render_template, request, session
+from markupsafe import Markup, escape
 
 from config import Config
 from flask_babel import Babel
-from models import Tag, User, db
+from models import TAG_NAME_MAX_LENGTH, Tag, User, db
 from routes import admin_bp, auth_bp, community_bp, main_bp, posts_bp, profile_bp
 from utils import UNIVERSITY_TAG_PREFIX, available_languages, university_label_from_slug
 
@@ -46,6 +48,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     login_manager.init_app(app)
     babel.init_app(app, locale_selector=get_locale)
+    app.jinja_env.filters["format_post_content"] = format_post_content
 
     register_security(app)
     register_blueprints(app)
@@ -58,6 +61,25 @@ def create_app(config_class=Config):
         ensure_default_admin()
 
     return app
+
+
+def format_post_content(value):
+    if not value:
+        return ""
+
+    normalized = re.sub(r"<br\s*/?>", "\n", value, flags=re.IGNORECASE)
+    normalized = normalized.replace("\r\n", "\n").replace("\r", "\n").strip()
+    paragraphs = [segment.strip() for segment in re.split(r"\n\s*\n", normalized) if segment.strip()]
+
+    if not paragraphs:
+        return ""
+
+    rendered = []
+    for paragraph in paragraphs:
+        lines = "<br>".join(escape(line) for line in paragraph.split("\n"))
+        rendered.append(f"<p>{lines}</p>")
+
+    return Markup("".join(rendered))
 
 
 def register_blueprints(app):
@@ -157,6 +179,18 @@ def ensure_runtime_schema():
     user_columns = {column["name"] for column in inspector.get_columns("users")}
     if "university_slug" not in user_columns:
         alter_statements.append("ALTER TABLE users ADD COLUMN university_slug VARCHAR(100)")
+
+    if "tags" in inspector.get_table_names():
+        tag_name_column = next(
+            (column for column in inspector.get_columns("tags") if column["name"] == "name"),
+            None,
+        )
+        current_length = getattr(tag_name_column.get("type"), "length", None) if tag_name_column else None
+        if current_length and current_length < TAG_NAME_MAX_LENGTH:
+            if db.engine.dialect.name == "mysql":
+                alter_statements.append(
+                    f"ALTER TABLE tags MODIFY COLUMN name VARCHAR({TAG_NAME_MAX_LENGTH}) NOT NULL"
+                )
 
     if not alter_statements:
         return

@@ -10,6 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 UNIVERSITY_TAG_PREFIX = 'uni-'
+TAG_NAME_MAX_LENGTH = 191
 
 # Association table for many-to-many relationship between posts and tags
 post_tags = db.Table('post_tags',
@@ -133,7 +134,7 @@ class Tag(db.Model):
     __tablename__ = 'tags'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(50), nullable=False, unique=True)
+    name = db.Column(db.String(TAG_NAME_MAX_LENGTH), nullable=False, unique=True)
 
     def __repr__(self):
         return f'<Tag {self.name}>'

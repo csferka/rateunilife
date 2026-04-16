@@ -170,6 +170,200 @@ body {
     border-color: rgba(14, 165, 233, 0.45);
 }
 
+.post-detail-card {
+    border: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 250, 255, 0.98));
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+}
+
+.post-detail-hero {
+    padding: 28px 28px 22px;
+    background:
+        radial-gradient(600px 220px at 0% 0%, rgba(14, 165, 233, 0.14), transparent 75%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 249, 255, 0.96));
+    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.post-detail-heading {
+    flex: 1;
+    min-width: 0;
+}
+
+.post-detail-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.post-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.post-pill-category {
+    color: #fff;
+    background: linear-gradient(90deg, #0ea5e9, #2563eb);
+    box-shadow: 0 10px 20px rgba(14, 165, 233, 0.22);
+}
+
+.post-pill-school {
+    color: #0f172a;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.post-pill-tag {
+    color: #475569;
+    background: rgba(226, 232, 240, 0.92);
+}
+
+.post-detail-title {
+    margin: 0;
+    max-width: 14ch;
+    font-size: clamp(2rem, 4vw, 3.1rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    font-weight: 700;
+}
+
+.post-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    margin-top: 18px;
+    color: var(--ink-soft);
+    font-size: 0.96rem;
+    font-weight: 500;
+}
+
+.post-meta-row span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.post-detail-menu {
+    min-width: 46px;
+    min-height: 46px;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.post-detail-body {
+    padding: 26px 28px 10px;
+}
+
+.post-detail-media-wrap {
+    margin-bottom: 24px;
+    padding: 14px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.95), rgba(241, 245, 249, 0.9));
+    border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.post-detail-content {
+    max-width: 70ch;
+    font-size: 1.28rem;
+    line-height: 1.8;
+    color: #1e293b;
+}
+
+.post-detail-content p {
+    margin-bottom: 1.35rem;
+}
+
+.post-detail-content p:last-child {
+    margin-bottom: 0;
+}
+
+.post-detail-footer {
+    padding: 18px 28px 22px;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.55), rgba(241, 245, 249, 0.8));
+    border-top: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.post-vote-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.post-vote-count {
+    min-width: 26px;
+    text-align: center;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.post-report-btn {
+    border-width: 2px;
+}
+
+.post-comments-card {
+    border: 0;
+}
+
+.post-comments-header {
+    padding: 22px 24px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(244, 249, 255, 0.92));
+    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.post-comments-title {
+    font-size: 1.9rem;
+    font-weight: 700;
+}
+
+.post-comments-body {
+    padding: 24px;
+}
+
+.post-comment-label {
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.post-comment-input {
+    min-height: 132px;
+    padding: 16px 18px;
+    font-size: 1.05rem;
+    resize: vertical;
+}
+
+.post-comment-submit {
+    padding: 12px 18px;
+    border-radius: 14px;
+    font-weight: 700;
+}
+
+.post-comment-card {
+    padding: 16px 18px;
+    border-radius: 16px;
+}
+
+.post-comment-author {
+    color: #0f172a;
+}
+
+.post-comment-text {
+    font-size: 1.03rem;
+    line-height: 1.7;
+    color: #334155;
+}
+
 .tags-cloud .badge {
     font-size: 0.85rem;
     padding: 6px 10px;
@@ -360,6 +554,30 @@ body {
 
     .brand-subtitle {
         font-size: 0.68rem;
+    }
+
+    .post-detail-hero,
+    .post-detail-body,
+    .post-detail-footer,
+    .post-comments-header,
+    .post-comments-body {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .post-detail-title {
+        max-width: none;
+        font-size: 2rem;
+    }
+
+    .post-detail-content {
+        font-size: 1.08rem;
+        line-height: 1.75;
+    }
+
+    .post-vote-bar {
+        width: 100%;
+        justify-content: space-between;
     }
 
     .gallery-grid {

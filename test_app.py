@@ -2,7 +2,7 @@ import unittest
 
 from app import create_app
 from config import TestingConfig
-from models import Post, Report, User, db
+from models import Post, Report, Tag, User, db
 
 
 class RateMyUniLifeTestCase(unittest.TestCase):
@@ -124,6 +124,34 @@ class RateMyUniLifeTestCase(unittest.TestCase):
         with self.app.app_context():
             report = db.session.get(Report, report_id)
             self.assertEqual(report.status, 'dismissed')
+
+    def test_long_university_slug_is_saved_as_tag(self):
+        self.register_user()
+        self.login_user()
+
+        response = self.client.post(
+            '/post/new',
+            data={
+                'title': 'Long University Name Review',
+                'category': 'general',
+                'university': 'Tashkent University of Information Technologies named after Muhammad al-Khwarizmi',
+                'tags': 'admission, campus',
+                'content': 'Posting this should still work even when the university slug is long.',
+                'is_anonymous': 'on',
+            },
+            follow_redirects=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Your post has been published', response.data)
+
+        with self.app.app_context():
+            post = Post.query.filter_by(title='Long University Name Review').first()
+            self.assertIsNotNone(post)
+            university_tags = [tag.name for tag in post.tags if tag.name.startswith('uni-')]
+            self.assertEqual(len(university_tags), 1)
+            self.assertGreater(len(university_tags[0]), 50)
+            self.assertIsNotNone(Tag.query.filter_by(name=university_tags[0]).first())
 
 
 if __name__ == '__main__':
