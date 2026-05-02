@@ -168,7 +168,7 @@ $(document).ready(function () {
             alert('Result copied to clipboard.');
         });
     });
-    
+
     document.querySelectorAll('.auth-eye-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
             const wrap = btn.closest('.auth-input-wrap');
@@ -182,5 +182,85 @@ $(document).ready(function () {
                 icon.classList.replace('fa-eye-slash', 'fa-eye');
             }
         });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const contentArea = document.getElementById('content');
+        const counter = document.getElementById('contentCounter');
+        const fill = document.getElementById('cpProgressFill');
+
+        if (contentArea && counter && fill) {
+            function updateCounter() {
+                const len = contentArea.value.length;
+                counter.textContent = len;
+                const pct = (len / 2000) * 100;
+                fill.style.width = pct + '%';
+                if (pct > 90) {
+                    fill.style.background = 'var(--danger)';
+                    counter.style.color = 'var(--danger)';
+                } else if (pct > 70) {
+                    fill.style.background = '#f59e0b';
+                    counter.style.color = '#f59e0b';
+                } else {
+                    fill.style.background = 'var(--brand)';
+                    counter.style.color = 'var(--brand)';
+                }
+            }
+            contentArea.addEventListener('input', updateCounter);
+            updateCounter();
+        }
+
+        const tagsInput = document.getElementById('tags');
+        const tagsPreview = document.getElementById('cp-tags-preview');
+
+        if (tagsInput && tagsPreview) {
+            function renderTags() {
+                const raw = tagsInput.value.split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+                tagsPreview.innerHTML = raw.map(function (t) {
+                    return '<span class="cp-tag-badge">#' + t + '</span>';
+                }).join('');
+            }
+            tagsInput.addEventListener('input', renderTags);
+            renderTags();
+        }
+
+        const dropZone = document.getElementById('cpDropZone');
+        const fileInput = document.getElementById('media');
+        const dropContent = document.getElementById('cpDropContent');
+
+        if (dropZone && fileInput && dropContent) {
+            dropZone.addEventListener('click', function (e) {
+                if (e.target !== fileInput) {
+                    fileInput.click();
+                }
+            });
+
+            dropZone.addEventListener('dragover', function (e) {
+                e.preventDefault();
+                dropZone.classList.add('drag-over');
+            });
+            dropZone.addEventListener('dragleave', function () {
+                dropZone.classList.remove('drag-over');
+            });
+            dropZone.addEventListener('drop', function (e) {
+                e.preventDefault();
+                dropZone.classList.remove('drag-over');
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    showFileName(e.dataTransfer.files[0].name);
+                }
+            });
+            fileInput.addEventListener('change', function () {
+                if (fileInput.files.length) showFileName(fileInput.files[0].name);
+            });
+
+            function showFileName(name) {
+                dropContent.innerHTML =
+                    '<i class="fas fa-check-circle cp-drop-icon" style="color:var(--accent)"></i>' +
+                    '<p class="cp-drop-text">' + name + '</p>' +
+                    '<p class="cp-drop-hint">Click to change</p>';
+            }
+        }
+
     });
 });
