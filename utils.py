@@ -9,9 +9,9 @@ from werkzeug.utils import secure_filename
 
 from models import Tag, UNIVERSITY_TAG_PREFIX, db
 
-ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
+ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp", "heic", "heif"}
 ALLOWED_VIDEO_EXTENSIONS = {"mp4", "webm", "mov", "m4v"}
-RATE_LIMIT_ATTEMPTS = {}
+ALLOWED_AUDIO_EXTENSIONS = {"mp3", "m4a", "ogg"}
 
 
 def get_media_kind(filename):
@@ -23,6 +23,8 @@ def get_media_kind(filename):
         return "image", extension
     if extension in ALLOWED_VIDEO_EXTENSIONS:
         return "video", extension
+    if extension in ALLOWED_AUDIO_EXTENSIONS:
+        return "audio", extension
     return None
 
 
