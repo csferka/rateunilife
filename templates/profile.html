@@ -3,71 +3,130 @@
 {% block title %}{{ _('Profile') }}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-12">
-        <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0"><i class="fas fa-user"></i> {{ _('My Profile') }}</h4>
+<div class="profile-page">
+
+    <!-- Profile Hero Card -->
+    <div class="profile-hero-card mb-4">
+        <div class="profile-hero-bg"></div>
+        <div class="profile-hero-body">
+            <div class="profile-avatar">
+                <span>{{ current_user.username[0].upper() }}</span>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <p><strong>{{ _('Username') }}:</strong> {{ current_user.username }}</p>
-                        <p><strong>{{ _('Email') }}:</strong> {{ current_user.email }}</p>
-                        <p><strong>{{ _('Member since') }}:</strong> {{ current_user.created_at.strftime('%Y-%m-%d') }}</p>
-                        {% if current_user.is_admin %}
-                            <span class="badge bg-danger">{{ _('Administrator') }}</span>
-                        {% endif %}
-                    </div>
+            <div class="profile-info">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <h3 class="profile-username">{{ current_user.username }}</h3>
+                    {% if current_user.is_admin %}
+                    <span class="badge profile-admin-badge">
+                        <i class="fas fa-shield-alt me-1"></i>{{ _('Administrator') }}
+                    </span>
+                    {% endif %}
+                </div>
+                <div class="profile-meta">
+                    <span><i class="fas fa-envelope"></i> {{ current_user.email }}</span>
+                    <span><i class="fas fa-calendar-alt"></i> {{ _('Member since') }} {{
+                        current_user.created_at.strftime('%Y-%m-%d') }}</span>
+                </div>
+            </div>
+            <div class="profile-stats">
+                <div class="profile-stat">
+                    <span class="profile-stat-value">{{ user_posts|length }}</span>
+                    <span class="profile-stat-label">{{ _('Posts') }}</span>
+                </div>
+                <div class="profile-stat">
+                    <span class="profile-stat-value">{{ user_comments|length }}</span>
+                    <span class="profile-stat-label">{{ _('Comments') }}</span>
+                </div>
+                <div class="profile-stat">
+                    <span class="profile-stat-value">{{ user_posts|sum(attribute='vote_count') }}</span>
+                    <span class="profile-stat-label">{{ _('Votes') }}</span>
                 </div>
             </div>
         </div>
+    </div>
 
-        <h4>{{ _('My Posts') }}</h4>
+    <!-- My Posts -->
+    <div class="profile-section">
+        <div class="profile-section-header">
+            <h4 class="profile-section-title">
+                <i class="fas fa-pen-alt"></i> {{ _('My Posts') }}
+            </h4>
+            <a href="{{ url_for('posts.create_post') }}" class="btn btn-primary btn-sm profile-new-btn">
+                <i class="fas fa-plus me-1"></i>{{ _('New Post') }}
+            </a>
+        </div>
+
         {% if user_posts %}
+        <div class="profile-posts-list">
             {% for post in user_posts %}
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <h5 class="card-title">
-                                <a href="{{ url_for('posts.view_post', post_id=post.id) }}">{{ post.title }}</a>
-                                {% if post.is_anonymous %}
-                                    <span class="badge bg-secondary">{{ _('Anonymous') }}</span>
-                                {% endif %}
-                            </h5>
-                            <small class="text-muted">{{ post.created_at.strftime('%Y-%m-%d') }}</small>
+            <div class="profile-post-card">
+                <div class="profile-post-main">
+                    <div class="d-flex align-items-start justify-content-between gap-2">
+                        <div>
+                            <a href="{{ url_for('posts.view_post', post_id=post.id) }}" class="profile-post-title">
+                                {{ post.title }}
+                            </a>
+                            {% if post.is_anonymous %}
+                            <span class="badge profile-anon-badge ms-2">
+                                <i class="fas fa-user-secret me-1"></i>{{ _('Anonymous') }}
+                            </span>
+                            {% endif %}
                         </div>
-                        <p class="card-text">{{ post.content[:150] }}...</p>
-                        <div class="text-muted">
-                            <small><i class="fas fa-comment"></i> {{ post.comments|length }} {{ _('comments') }}</small>
-                            <small class="ms-3"><i class="fas fa-chart-line"></i> {{ post.vote_count }} {{ _('votes') }}</small>
-                        </div>
+                        <span class="profile-post-date">{{ post.created_at.strftime('%Y-%m-%d') }}</span>
+                    </div>
+                    <p class="profile-post-preview">{{ post.content[:150] }}...</p>
+                    <div class="profile-post-meta">
+                        <span><i class="fas fa-comment"></i> {{ post.comments|length }} {{ _('comments') }}</span>
+                        <span><i class="fas fa-chart-line"></i> {{ post.vote_count }} {{ _('votes') }}</span>
                     </div>
                 </div>
+            </div>
             {% endfor %}
+        </div>
         {% else %}
-            <div class="alert alert-info">{{ _("You haven't created any posts yet.") }}</div>
-        {% endif %}
-
-        <h4 class="mt-4">{{ _('My Recent Comments') }}</h4>
-        {% if user_comments %}
-            {% for comment in user_comments[:5] %}
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <strong>{{ _('On:') }}</strong>
-                                <a href="{{ url_for('posts.view_post', post_id=comment.post.id) }}">{{ comment.post.title }}</a>
-                            </div>
-                            <small class="text-muted">{{ comment.created_at.strftime('%Y-%m-%d') }}</small>
-                        </div>
-                        <p class="card-text mt-2 mb-0">{{ comment.content }}</p>
-                    </div>
-                </div>
-            {% endfor %}
-        {% else %}
-            <div class="alert alert-light border">{{ _("You haven't commented yet.") }}</div>
+        <div class="profile-empty">
+            <div class="profile-empty-icon"><i class="fas fa-pen"></i></div>
+            <p>{{ _("You haven't created any posts yet.") }}</p>
+            <a href="{{ url_for('posts.create_post') }}" class="btn btn-primary btn-sm">{{ _('Create your first post')
+                }}</a>
+        </div>
         {% endif %}
     </div>
+
+    <!-- My Recent Comments -->
+    <div class="profile-section mt-4">
+        <div class="profile-section-header">
+            <h4 class="profile-section-title">
+                <i class="fas fa-comments"></i> {{ _('My Recent Comments') }}
+            </h4>
+        </div>
+
+        {% if user_comments %}
+        <div class="profile-posts-list">
+            {% for comment in user_comments[:5] %}
+            <div class="profile-post-card profile-comment-card">
+                <div class="profile-post-main">
+                    <div class="d-flex align-items-start justify-content-between gap-2">
+                        <div>
+                            <span class="profile-comment-on">{{ _('On:') }}</span>
+                            <a href="{{ url_for('posts.view_post', post_id=comment.post.id) }}"
+                                class="profile-comment-link">
+                                {{ comment.post.title }}
+                            </a>
+                        </div>
+                        <span class="profile-post-date">{{ comment.created_at.strftime('%Y-%m-%d') }}</span>
+                    </div>
+                    <p class="profile-post-preview mt-2 mb-0">{{ comment.content }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="profile-empty">
+            <div class="profile-empty-icon"><i class="fas fa-comment-slash"></i></div>
+            <p>{{ _("You haven't commented yet.") }}</p>
+        </div>
+        {% endif %}
+    </div>
+
 </div>
 {% endblock %}
