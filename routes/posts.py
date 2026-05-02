@@ -38,9 +38,7 @@ def create_post():
 
         if media_file and media_file.filename and not get_media_kind(media_file.filename):
             flash(
-                _("Unsupported media format. Use images (png/jpg/jpeg/gif/webp) or videos (mp4/webm/mov/m4v)."),
-                "danger",
-            )
+                _("Unsupported media format. Use images (png/jpg/jpeg/gif/webp/heic), videos (mp4/webm/mov) or audio (mp3)."),"danger",)
             return redirect(url_for("posts.create_post"))
 
         media_path, media_type = save_uploaded_media(media_file, current_app.config["UPLOAD_FOLDER"])
