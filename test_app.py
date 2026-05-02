@@ -171,6 +171,40 @@ class RateMyUniLifeTestCase(unittest.TestCase):
         with self.app.app_context():
             user = User.query.filter_by(username='student1').first()
             self.assertEqual(user.university_slug, 'wiut')
+            self.assertTrue(user.has_joined_community('wiut'))
+
+    def test_joining_another_community_keeps_existing_memberships(self):
+        self.register_user()
+        self.login_user()
+
+        first_join = self.client.post(
+            '/university/wiut/join',
+            data={},
+            follow_redirects=True,
+        )
+        self.assertEqual(first_join.status_code, 200)
+
+        second_join = self.client.post(
+            '/university/wsau/join',
+            data={},
+            follow_redirects=True,
+        )
+
+        self.assertEqual(second_join.status_code, 200)
+        self.assertIn(b'You joined the Wsau community', second_join.data)
+        self.assertIn(b'Joined Community', second_join.data)
+
+        wiut_feed = self.client.get('/university/wiut')
+        self.assertEqual(wiut_feed.status_code, 200)
+        self.assertIn(b'Joined Community', wiut_feed.data)
+        self.assertIn(b'1 Community Members', wiut_feed.data)
+
+        with self.app.app_context():
+            user = User.query.filter_by(username='student1').first()
+            joined_communities = {tag.name for tag in user.communities}
+            self.assertIn('uni-wiut', joined_communities)
+            self.assertIn('uni-wsau', joined_communities)
+            self.assertEqual(user.university_slug, 'wiut')
 
 
 if __name__ == '__main__':

@@ -59,6 +59,7 @@ def create_app(config_class=Config):
         db.create_all()
         ensure_runtime_schema()
         ensure_default_admin()
+        ensure_community_memberships()
 
     return app
 
@@ -218,6 +219,34 @@ def ensure_default_admin():
             print("Rate My Uni Life default admin password")
             print(generated_password)
             print("=" * 50 + "\n")
+
+
+def ensure_community_memberships():
+    community_tags = {
+        tag.name: tag
+        for tag in Tag.query.filter(Tag.name.startswith(UNIVERSITY_TAG_PREFIX)).all()
+    }
+    changed = False
+
+    for user in User.query.filter(User.university_slug.isnot(None)).all():
+        if not user.university_slug:
+            continue
+
+        community_tag_name = f"{UNIVERSITY_TAG_PREFIX}{user.university_slug}"
+        community_tag = community_tags.get(community_tag_name)
+        if community_tag is None:
+            community_tag = Tag(name=community_tag_name)
+            db.session.add(community_tag)
+            db.session.flush()
+            community_tags[community_tag_name] = community_tag
+            changed = True
+
+        if community_tag not in user.communities:
+            user.communities.append(community_tag)
+            changed = True
+
+    if changed:
+        db.session.commit()
 
 
 def register_error_handlers(app):

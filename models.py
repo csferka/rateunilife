@@ -18,6 +18,12 @@ post_tags = db.Table('post_tags',
     db.Column('tag_id', db.Integer, db.ForeignKey('tags.id', ondelete='CASCADE'), primary_key=True)
 )
 
+user_communities = db.Table(
+    'user_communities',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id', ondelete='CASCADE'), primary_key=True)
+)
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
@@ -35,12 +41,22 @@ class User(UserMixin, db.Model):
     votes = db.relationship('Vote', backref='user', lazy=True, cascade='all, delete-orphan')
     reports = db.relationship('Report', foreign_keys='Report.reporter_id', backref='reporter', lazy=True)
     media_posts = db.relationship('MediaPost', backref='author', lazy=True, cascade='all, delete-orphan')
+    communities = db.relationship(
+        'Tag',
+        secondary=user_communities,
+        lazy='selectin',
+        backref=db.backref('members', lazy='dynamic'),
+    )
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def has_joined_community(self, slug):
+        community_tag_name = f'{UNIVERSITY_TAG_PREFIX}{slug}'
+        return any(tag.name == community_tag_name for tag in self.communities)
 
     def __repr__(self):
         return f'<User {self.username}>'

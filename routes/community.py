@@ -191,10 +191,14 @@ def university_feed(slug):
         .all()
     )
     post_count = community_base_query(slug).count()
-    member_count = User.query.filter_by(university_slug=slug).count()
+    community_tag_name = f"uni-{slug}"
+    member_count = User.query.join(User.communities).filter(Tag.name == community_tag_name).count()
     is_member = bool(
         current_user.is_authenticated
-        and getattr(current_user, "university_slug", None) == slug
+        and (
+            current_user.has_joined_community(slug)
+            or getattr(current_user, "university_slug", None) == slug
+        )
     )
 
     leaderboard = (
@@ -229,11 +233,22 @@ def join_community(slug):
     if not slug:
         return redirect(url_for("main.index"))
 
-    if current_user.university_slug == slug:
+    if current_user.has_joined_community(slug):
         flash(_("You already joined the %(university)s community.", university=university_label_from_slug(slug)), "info")
         return redirect(url_for("community.university_feed", slug=slug))
 
-    current_user.university_slug = slug
+    community_tag_name = f"uni-{slug}"
+    community_tag = Tag.query.filter_by(name=community_tag_name).first()
+    if community_tag is None:
+        community_tag = Tag(name=community_tag_name)
+        db.session.add(community_tag)
+        db.session.flush()
+
+    current_user.communities.append(community_tag)
+    if not current_user.university_slug:
+        # Preserve the first joined community as the user's home community.
+        current_user.university_slug = slug
+
     db.session.commit()
     flash(_("You joined the %(university)s community.", university=university_label_from_slug(slug)), "success")
     return redirect(url_for("community.university_feed", slug=slug))
