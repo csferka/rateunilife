@@ -3,43 +3,109 @@
 {% block title %}{{ _('Register') }}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-6 mx-auto">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0"><i class="fas fa-user-plus"></i> {{ _('Register') }}</h4>
+<div class="auth-page-wrap">
+    <div class="auth-card">
+
+        <div class="auth-left">
+            <div class="auth-left-inner">
+                <div class="auth-brand-icon">
+                    <i class="fas fa-star-of-life"></i>
+                </div>
+                <h2 class="auth-left-title">{{ _('Join the community') }}</h2>
+                <p class="auth-left-sub">{{ _('Thousands of students already sharing their honest university experiences.') }}</p>
+                <div class="auth-features">
+                    <div class="auth-feature-item">
+                        <span class="auth-feature-icon"><i class="fas fa-user-secret"></i></span>
+                        <span>{{ _('100% Anonymous posts') }}</span>
+                    </div>
+                    <div class="auth-feature-item">
+                        <span class="auth-feature-icon"><i class="fas fa-university"></i></span>
+                        <span>{{ _('All universities in one place') }}</span>
+                    </div>
+                    <div class="auth-feature-item">
+                        <span class="auth-feature-icon"><i class="fas fa-comments"></i></span>
+                        <span>{{ _('Real student reviews') }}</span>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <form method="POST">
+        </div>
+
+        <div class="auth-right">
+            <div class="auth-form-wrap">
+                <div class="auth-form-header">
+                    <div class="auth-form-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h3 class="auth-form-title">{{ _('Register') }}</h3>
+                    <p class="auth-form-sub">{{ _('Create your free account in seconds') }}</p>
+                </div>
+
+                <form method="POST" class="auth-form">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-                    <div class="mb-3">
-                        <label for="username" class="form-label">{{ _('Username') }}</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="{{ _('Choose a username') }}" required>
-                        <small class="text-muted">{{ _('Pick something easy for you to remember.') }}</small>
+
+                    <div class="auth-field">
+                        <label for="username" class="auth-label">
+                            <i class="fas fa-user"></i> {{ _('Username') }}
+                        </label>
+                        <input type="text" class="auth-input" id="username" name="username"
+                               placeholder="{{ _('Choose a username') }}" required>
+                        <small class="auth-hint">{{ _('Pick something easy for you to remember.') }}</small>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">{{ _('Email') }}</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="{{ _('Enter your email address') }}" required>
-                        <small class="text-muted">{{ _('Your email is used for login and account identification.') }}</small>
+
+                    <div class="auth-field">
+                        <label for="email" class="auth-label">
+                            <i class="fas fa-envelope"></i> {{ _('Email') }}
+                        </label>
+                        <input type="email" class="auth-input" id="email" name="email"
+                               placeholder="{{ _('Enter your email address') }}" required>
+                        <small class="auth-hint">{{ _('Your email is used for login and account identification.') }}</small>
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">{{ _('Password') }}</label>
-                        <input type="password" class="form-control" id="password" name="password" minlength="8" placeholder="{{ _('Create a password with at least 8 characters') }}" required>
-                        <small class="text-muted">{{ _('Use at least 8 characters for better security.') }}</small>
+
+                    <div class="auth-field">
+                        <label for="password" class="auth-label">
+                            <i class="fas fa-lock"></i> {{ _('Password') }}
+                        </label>
+                        <div class="auth-input-wrap">
+                            <input type="password" class="auth-input" id="password" name="password"
+                                   minlength="8" placeholder="{{ _('Create a password') }}" required>
+                            <button type="button" class="auth-eye-btn" onclick="togglePassword('password', this)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <small class="auth-hint">{{ _('Use at least 8 characters for better security.') }}</small>
                     </div>
-                    <div class="mb-3">
-                        <label for="confirm_password" class="form-label">{{ _('Confirm Password') }}</label>
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" minlength="8" placeholder="{{ _('Repeat your password') }}" required>
-                        <small class="text-muted">{{ _('Make sure both password fields match.') }}</small>
+
+                    <div class="auth-field">
+                        <label for="confirm_password" class="auth-label">
+                            <i class="fas fa-lock"></i> {{ _('Confirm Password') }}
+                        </label>
+                        <div class="auth-input-wrap">
+                            <input type="password" class="auth-input" id="confirm_password" name="confirm_password"
+                                   minlength="8" placeholder="{{ _('Repeat your password') }}" required>
+                            <button type="button" class="auth-eye-btn">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <small class="auth-hint">{{ _('Make sure both password fields match.') }}</small>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">{{ _('Register') }}</button>
+
+                    <button type="submit" class="auth-submit-btn">
+                        <span>{{ _('Register') }}</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </form>
-                <hr>
-                <p class="text-center mb-0">
-                    {{ _('Already have an account?') }} <a href="{{ url_for('auth.login') }}">{{ _('Login here') }}</a>
+
+                <div class="auth-divider"><span>{{ _('or') }}</span></div>
+
+                <p class="auth-switch">
+                    {{ _('Already have an account?') }}
+                    <a href="{{ url_for('auth.login') }}" class="auth-switch-link">{{ _('Login here') }}</a>
                 </p>
             </div>
         </div>
+
     </div>
 </div>
+
+
 {% endblock %}
