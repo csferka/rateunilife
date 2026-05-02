@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
     const backToTopButton = $('#backToTop');
     const contentField = $('#content');
@@ -11,7 +11,7 @@ $(document).ready(function() {
             }
         });
 
-        $('form[method="POST"], form[method="post"]').each(function() {
+        $('form[method="POST"], form[method="post"]').each(function () {
             const form = $(this);
             if (form.find('input[name="_csrf_token"]').length === 0) {
                 form.append(`<input type="hidden" name="_csrf_token" value="${csrfToken}">`);
@@ -19,7 +19,7 @@ $(document).ready(function() {
         });
     }
 
-    $('.vote-btn').click(function() {
+    $('.vote-btn').click(function () {
         const button = $(this);
         const postId = button.data('post-id');
         const voteType = Number(button.data('vote-type'));
@@ -30,7 +30,7 @@ $(document).ready(function() {
             data: {
                 vote_type: voteType
             },
-            success: function(response) {
+            success: function (response) {
                 if (response.success) {
                     const voteContainer = button.closest('.vote-buttons');
                     const voteCountSpan = voteContainer.find('.vote-count-display');
@@ -50,7 +50,7 @@ $(document).ready(function() {
                     }
                 }
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 if (xhr.status === 401) {
                     window.location.href = '/auth/login';
                 } else {
@@ -60,13 +60,13 @@ $(document).ready(function() {
         });
     });
 
-    setTimeout(function() {
-        $('.auto-dismiss-alert').fadeOut('slow', function() {
+    setTimeout(function () {
+        $('.auto-dismiss-alert').fadeOut('slow', function () {
             $(this).remove();
         });
     }, 4000);
 
-    $('#tags').on('input', function() {
+    $('#tags').on('input', function () {
         const query = $(this).val();
         const lastComma = query.lastIndexOf(',');
         const lastTag = lastComma === -1 ? query : query.substring(lastComma + 1).trim();
@@ -79,7 +79,7 @@ $(document).ready(function() {
         }
     });
 
-    $('form[action*="delete"]').submit(function(e) {
+    $('form[action*="delete"]').submit(function (e) {
         const confirmed = $(this).data('confirmed');
         if (!confirmed && !confirm('Are you sure you want to delete this item? This action cannot be undone.')) {
             e.preventDefault();
@@ -96,7 +96,7 @@ $(document).ready(function() {
     updateContentCounter();
     contentField.on('input', updateContentCounter);
 
-    $(window).on('scroll', function() {
+    $(window).on('scroll', function () {
         if ($(window).scrollTop() > 300) {
             backToTopButton.addClass('show');
         } else {
@@ -104,7 +104,7 @@ $(document).ready(function() {
         }
     });
 
-    backToTopButton.on('click', function() {
+    backToTopButton.on('click', function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
@@ -129,20 +129,20 @@ $(document).ready(function() {
             return quizSteps.eq(currentStep).find('input[type="radio"]:checked').length > 0;
         }
 
-        $('.quiz-option-card').on('click', function() {
+        $('.quiz-option-card').on('click', function () {
             const input = $(this).find('input[type="radio"]');
             input.prop('checked', true).trigger('change');
             $(this).closest('.row').find('.quiz-option-card').removeClass('selected');
             $(this).addClass('selected');
         });
 
-        $('input[type="radio"]').each(function() {
+        $('input[type="radio"]').each(function () {
             if ($(this).is(':checked')) {
                 $(this).closest('.quiz-option-card').addClass('selected');
             }
         });
 
-        nextStep.on('click', function() {
+        nextStep.on('click', function () {
             if (!currentAnswered()) {
                 alert('Please select an answer before continuing.');
                 return;
@@ -151,7 +151,7 @@ $(document).ready(function() {
             renderQuizStep();
         });
 
-        prevStep.on('click', function() {
+        prevStep.on('click', function () {
             currentStep = Math.max(currentStep - 1, 0);
             renderQuizStep();
         });
@@ -159,13 +159,28 @@ $(document).ready(function() {
         renderQuizStep();
     }
 
-    $('#shareQuizResult').on('click', function() {
+    $('#shareQuizResult').on('click', function () {
         const shareText = $(this).data('share-text');
         if (!shareText) {
             return;
         }
-        navigator.clipboard.writeText(shareText).then(function() {
+        navigator.clipboard.writeText(shareText).then(function () {
             alert('Result copied to clipboard.');
+        });
+    });
+    
+    document.querySelectorAll('.auth-eye-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const wrap = btn.closest('.auth-input-wrap');
+            const input = wrap.querySelector('.auth-input');
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
         });
     });
 });
