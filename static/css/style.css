@@ -126,9 +126,12 @@ body {
 }
 
 .post-media-thumb {
-    max-height: 300px;
+    width: 100%;
+    max-height: 480px;
     object-fit: cover;
     border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 8px;
+    display: block;
 }
 
 .post-media-detail {
@@ -1641,4 +1644,21 @@ body {
     .cp-header {
         padding: 1.2rem 1rem;
     }
+}
+
+.post-card video {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
+
+.post-card img {
+    width: 100%;
+    max-height: 480px;
+    object-fit: contain;
+    border-radius: 8px;
+    display: block;
+    background: #f1f5f9;
 }
