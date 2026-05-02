@@ -12,7 +12,7 @@ from models import Tag, UNIVERSITY_TAG_PREFIX, db
 ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp", "heic", "heif"}
 ALLOWED_VIDEO_EXTENSIONS = {"mp4", "webm", "mov", "m4v"}
 ALLOWED_AUDIO_EXTENSIONS = {"mp3", "m4a", "ogg"}
-
+RATE_LIMIT_ATTEMPTS = {}
 
 def get_media_kind(filename):
     if not filename or "." not in filename:
