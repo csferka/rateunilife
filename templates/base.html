@@ -41,7 +41,15 @@
                                     </li>
                                 {% endfor %}
                             {% else %}
-                                <li><span class="dropdown-item-text text-muted">{{ _('No communities yet') }}</span></li>
+                                <li>
+                                    <span class="dropdown-item-text text-muted">
+                                        {% if current_user.is_authenticated %}
+                                            {{ _('Join a community to see it here') }}
+                                        {% else %}
+                                            {{ _('No communities yet') }}
+                                        {% endif %}
+                                    </span>
+                                </li>
                             {% endif %}
                         </ul>
                     </li>

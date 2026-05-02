@@ -206,6 +206,23 @@ class RateMyUniLifeTestCase(unittest.TestCase):
             self.assertIn('uni-wsau', joined_communities)
             self.assertEqual(user.university_slug, 'wiut')
 
+    def test_navbar_communities_only_show_joined_communities_for_member(self):
+        self.register_user()
+        self.login_user()
+        self.create_post(title='Webster Review')
+
+        self.client.post(
+            '/university/wiut/join',
+            data={},
+            follow_redirects=True,
+        )
+
+        response = self.client.get('/', follow_redirects=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'href="/university/wiut"', response.data)
+        self.assertNotIn(b'href="/university/webster-university-in-tashkent"', response.data)
+
 
 if __name__ == '__main__':
     unittest.main()

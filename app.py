@@ -14,7 +14,7 @@ from utils import UNIVERSITY_TAG_PREFIX, available_languages, university_label_f
 
 pymysql.install_as_MySQLdb()
 
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from sqlalchemy import inspect, text
 
 login_manager = LoginManager()
@@ -97,11 +97,22 @@ def register_context(app):
 
     @app.context_processor
     def inject_globals():
-        community_tags = (
-            Tag.query.filter(Tag.name.startswith(UNIVERSITY_TAG_PREFIX))
-            .order_by(Tag.name.asc())
-            .all()
-        )
+        if current_user.is_authenticated:
+            community_tags = sorted(
+                (
+                    tag
+                    for tag in current_user.communities
+                    if tag.name.startswith(UNIVERSITY_TAG_PREFIX)
+                ),
+                key=lambda tag: university_label_from_slug(tag.name[len(UNIVERSITY_TAG_PREFIX):]) or "",
+            )
+        else:
+            community_tags = (
+                Tag.query.filter(Tag.name.startswith(UNIVERSITY_TAG_PREFIX))
+                .order_by(Tag.name.asc())
+                .all()
+            )
+
         communities = [
             {
                 "slug": tag.name[len(UNIVERSITY_TAG_PREFIX):],
