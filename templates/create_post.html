@@ -3,43 +3,63 @@
 {% block title %}{{ _('Edit Post') if edit_mode else _('Create New Post') }}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8 mx-auto">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">
-                    <i class="fas fa-{{ 'edit' if edit_mode else 'plus' }}"></i>
+<div class="cp-page">
+    <div class="cp-card">
+
+        <div class="cp-header">
+            <div class="cp-header-icon">
+                <i class="fas fa-{{ 'edit' if edit_mode else 'plus' }}"></i>
+            </div>
+            <div>
+                <h4 class="cp-header-title">
                     {{ _('Edit Post') if edit_mode else _('Create New Post') }}
                 </h4>
+                <p class="cp-header-sub">{{ _('Share your honest experience anonymously with students.') }}</p>
             </div>
-            <div class="card-body">
-                <form method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-                    <div class="mb-3">
-                        <label for="title" class="form-label">{{ _('Title') }}</label>
-                        <input type="text" class="form-control" id="title" name="title"
-                               value="{{ post.title if post else '' }}" placeholder="{{ _('Give your post a clear, specific title') }}" required>
-                        <small class="text-muted">{{ _('Example: Data Structures workload at Webster') }}</small>
-                    </div>
+        </div>
 
-                    <div class="mb-3">
-                        <label for="category" class="form-label">{{ _('Category') }}</label>
-                        <select class="form-select" id="category" name="category" required>
+        <div class="cp-body">
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+
+                <div class="cp-field">
+                    <label for="title" class="cp-label">
+                        <i class="fas fa-heading"></i> {{ _('Title') }}
+                    </label>
+                    <input type="text" class="cp-input" id="title" name="title" value="{{ post.title if post else '' }}"
+                        placeholder="{{ _('Give your post a clear, specific title') }}" required>
+                    <small class="cp-hint">
+                        <i class="fas fa-lightbulb"></i> {{ _('Example: Data Structures workload at Webster') }}
+                    </small>
+                </div>
+
+                <div class="cp-row-2">
+                    <div class="cp-field">
+                        <label for="category" class="cp-label">
+                            <i class="fas fa-tag"></i> {{ _('Category') }}
+                        </label>
+                        <select class="cp-input cp-select" id="category" name="category" required>
                             <option value="">{{ _('Select a category...') }}</option>
-                            <option value="professor" {% if post and post.category == 'professor' %}selected{% endif %}>{{ _('Professor') }}</option>
-                            <option value="course" {% if post and post.category == 'course' %}selected{% endif %}>{{ _('Course') }}</option>
-                            <option value="campus" {% if post and post.category == 'campus' %}selected{% endif %}>{{ _('Campus') }}</option>
-                            <option value="general" {% if post and post.category == 'general' %}selected{% endif %}>{{ _('General') }}</option>
+                            <option value="professor" {% if post and post.category=='professor' %}selected{% endif %}>🎓
+                                {{ _('Professor') }}</option>
+                            <option value="course" {% if post and post.category=='course' %}selected{% endif %}>📚 {{
+                                _('Course') }}</option>
+                            <option value="campus" {% if post and post.category=='campus' %}selected{% endif %}>🏫 {{
+                                _('Campus') }}</option>
+                            <option value="general" {% if post and post.category=='general' %}selected{% endif %}>💬 {{
+                                _('General') }}</option>
                         </select>
-                        <small class="text-muted">{{ _('Choose the topic that best matches your experience.') }}</small>
+                        <small class="cp-hint">{{ _('Choose the topic that best matches your experience.') }}</small>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="university" class="form-label">{{ _('University') }}</label>
-                        <input type="text" class="form-control" id="university" name="university" list="university-options"
-                               value="{{ university_value if university_value else '' }}"
-                               placeholder="{{ _('Start typing your university name') }}" required>
-                        <small class="text-muted">{{ _('Start typing your university name') }}</small>
+                    <div class="cp-field">
+                        <label for="university" class="cp-label">
+                            <i class="fas fa-university"></i> {{ _('University') }}
+                        </label>
+                        <input type="text" class="cp-input" id="university" name="university" list="university-options"
+                            value="{{ university_value if university_value else '' }}"
+                            placeholder="{{ _('Start typing...') }}" required>
+                        <small class="cp-hint">{{ _('Start typing your university name') }}</small>
                         <datalist id="university-options">
                             <option value="Webster University in Tashkent">
                             <option value="INHA University in Tashkent">
@@ -53,53 +73,78 @@
                             <option value="Turin Polytechnic University in Tashkent">
                         </datalist>
                     </div>
+                </div>
 
-                    <div class="mb-3">
-                        <label for="tags" class="form-label">{{ _('Tags (comma-separated)') }}</label>
-                        <input type="text" class="form-control" id="tags" name="tags"
-                               value="{{ tags_string if tags_string else '' }}"
-                               placeholder="{{ _('Example: webster, cs, exam, dorm') }}">
-                        <small class="text-muted">{{ _('Add a few helpful tags so other students can find this post faster.') }}</small>
-                    </div>
+                <div class="cp-field">
+                    <label for="tags" class="cp-label">
+                        <i class="fas fa-hashtag"></i> {{ _('Tags (comma-separated)') }}
+                    </label>
+                    <input type="text" class="cp-input" id="tags" name="tags"
+                        value="{{ tags_string if tags_string else '' }}"
+                        placeholder="{{ _('Example: webster, cs, exam, dorm') }}">
+                    <div id="cp-tags-preview" class="cp-tags-preview"></div>
+                    <small class="cp-hint">{{ _('Add a few helpful tags so other students can find this post faster.')
+                        }}</small>
+                </div>
 
-                    <div class="mb-3">
-                        <label for="content" class="form-label">{{ _('Content') }}</label>
-                        <textarea class="form-control" id="content" name="content" rows="10" maxlength="2000" placeholder="{{ _('Share your honest experience, tips, and context for other students.') }}" required>{{ post.content if post else '' }}</textarea>
-                        <div class="d-flex justify-content-between mt-1">
-                            <small class="text-muted">{{ _('Be respectful and specific. Maximum 2000 characters.') }}</small>
-                            <small class="text-muted"><span id="contentCounter">0</span>/2000</small>
+                <div class="cp-field">
+                    <label for="content" class="cp-label">
+                        <i class="fas fa-align-left"></i> {{ _('Content') }}
+                    </label>
+                    <textarea class="cp-input cp-textarea" id="content" name="content" rows="10" maxlength="2000"
+                        placeholder="{{ _('Share your honest experience, tips, and context for other students.') }}"
+                        required>{{ post.content if post else '' }}</textarea>
+                    <div class="cp-counter-row">
+                        <small class="cp-hint">{{ _('Be respectful and specific. Maximum 2000 characters.') }}</small>
+                        <div class="cp-counter-wrap">
+                            <span class="cp-counter" id="contentCounter">0</span>
+                            <span class="cp-counter-max">/2000</span>
                         </div>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="media" class="form-label">{{ _('Photo / Video (optional)') }}</label>
-                        <input type="file" class="form-control" id="media" name="media"
-                               accept="image/png,image/jpeg,image/jpg,image/gif,image/webp,video/mp4,video/webm,video/quicktime">
-                        <small class="text-muted">{{ _('Add a supporting image or short video if it helps explain your post.') }}</small>
-                        {% if edit_mode and post and post.media_path %}
-                            <div class="form-check mt-2">
-                                <input class="form-check-input" type="checkbox" id="remove_media" name="remove_media">
-                                <label class="form-check-label" for="remove_media">
-                                    {{ _('Remove existing media') }}
-                                </label>
-                            </div>
-                        {% endif %}
+                    <div class="cp-progress-bar">
+                        <div class="cp-progress-fill" id="cpProgressFill"></div>
                     </div>
+                </div>
 
-                    <div class="alert alert-info">
-                        <i class="fas fa-user-secret"></i>
-                        {{ _('Posts are anonymous for the community by default.') }}
+                <div class="cp-field">
+                    <label class="cp-label">
+                        <i class="fas fa-photo-video"></i> {{ _('Photo / Video (optional)') }}
+                    </label>
+                    <div class="cp-drop-zone" id="cpDropZone">
+                        <input type="file" class="cp-file-input" id="media" name="media"
+                            accept="image/png,image/jpeg,image/jpg,image/gif,image/webp,image/heic,image/heif,video/mp4,video/webm,video/quicktime,audio/mpeg,audio/mp3"
+                        <div class="cp-drop-content" id="cpDropContent">
+                            <i class="fas fa-cloud-upload-alt cp-drop-icon"></i>
+                            <p class="cp-drop-text">{{ _('Click or drag & drop a file here') }}</p>
+                            <p class="cp-drop-hint">PNG, JPG, GIF, WEBP, MP4, WEBM</p>
+                        </div>
                     </div>
+                    {% if edit_mode and post and post.media_path %}
+                    <div class="cp-remove-media mt-2">
+                        <input class="form-check-input" type="checkbox" id="remove_media" name="remove_media">
+                        <label class="form-check-label text-danger" for="remove_media">
+                            <i class="fas fa-trash-alt me-1"></i>{{ _('Remove existing media') }}
+                        </label>
+                    </div>
+                    {% endif %}
+                </div>
 
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-{{ 'save' if edit_mode else 'paper-plane' }}"></i>
-                            {{ _('Update Post') if edit_mode else _('Publish Post') }}
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <div class="cp-anon-alert">
+                    <i class="fas fa-user-secret cp-anon-icon"></i>
+                    <span>{{ _('Posts are anonymous for the community by default.') }}</span>
+                </div>
+
+                <div class="cp-actions">
+                    <a href="{{ url_for('main.index') }}" class="cp-btn-cancel">
+                        <i class="fas fa-arrow-left me-1"></i>{{ _('Cancel') }}
+                    </a>
+                    <button type="submit" class="cp-btn-publish">
+                        <i class="fas fa-{{ 'save' if edit_mode else 'paper-plane' }} me-1"></i>
+                        {{ _('Update Post') if edit_mode else _('Publish Post') }}
+                    </button>
+                </div>
+
+            </form>
         </div>
     </div>
 </div>
