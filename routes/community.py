@@ -191,7 +191,11 @@ def university_feed(slug):
         .all()
     )
     post_count = community_base_query(slug).count()
-    member_count = db.session.query(func.count(func.distinct(Post.author_id))).join(Post.tags).filter(Tag.name == community_tag).scalar() or 0
+    member_count = User.query.filter_by(university_slug=slug).count()
+    is_member = bool(
+        current_user.is_authenticated
+        and getattr(current_user, "university_slug", None) == slug
+    )
 
     leaderboard = (
         community_base_query(slug)
@@ -214,6 +218,7 @@ def university_feed(slug):
         current_category=category or None,
         current_sort=sort,
         search=search or None,
+        is_member=is_member,
     )
 
 
@@ -223,6 +228,10 @@ def join_community(slug):
     slug = normalize_university_slug(slug)
     if not slug:
         return redirect(url_for("main.index"))
+
+    if current_user.university_slug == slug:
+        flash(_("You already joined the %(university)s community.", university=university_label_from_slug(slug)), "info")
+        return redirect(url_for("community.university_feed", slug=slug))
 
     current_user.university_slug = slug
     db.session.commit()

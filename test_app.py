@@ -153,6 +153,25 @@ class RateMyUniLifeTestCase(unittest.TestCase):
             self.assertGreater(len(university_tags[0]), 50)
             self.assertIsNotNone(Tag.query.filter_by(name=university_tags[0]).first())
 
+    def test_join_community_updates_membership_state(self):
+        self.register_user()
+        self.login_user()
+
+        response = self.client.post(
+            '/university/wiut/join',
+            data={},
+            follow_redirects=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'You joined the Wiut community', response.data)
+        self.assertIn(b'1 Community Members', response.data)
+        self.assertIn(b'Joined Community', response.data)
+
+        with self.app.app_context():
+            user = User.query.filter_by(username='student1').first()
+            self.assertEqual(user.university_slug, 'wiut')
+
 
 if __name__ == '__main__':
     unittest.main()
