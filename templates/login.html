@@ -3,33 +3,86 @@
 {% block title %}{{ _('Login') }}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-6 mx-auto">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0"><i class="fas fa-sign-in-alt"></i> {{ _('Login') }}</h4>
+<div class="auth-page-wrap">
+    <div class="auth-card">
+
+        <div class="auth-left">
+            <div class="auth-left-inner">
+                <div class="auth-brand-icon">
+                    <i class="fas fa-star-of-life"></i>
+                </div>
+                <h2 class="auth-left-title">{{ _('Welcome back') }}</h2>
+                <p class="auth-left-sub">{{ _('Share your honest experience with students across Uzbekistan.') }}</p>
+                <div class="auth-features">
+                    <div class="auth-feature-item">
+                        <span class="auth-feature-icon"><i class="fas fa-user-secret"></i></span>
+                        <span>{{ _('100% Anonymous posts') }}</span>
+                    </div>
+                    <div class="auth-feature-item">
+                        <span class="auth-feature-icon"><i class="fas fa-university"></i></span>
+                        <span>{{ _('All universities in one place') }}</span>
+                    </div>
+                    <div class="auth-feature-item">
+                        <span class="auth-feature-icon"><i class="fas fa-comments"></i></span>
+                        <span>{{ _('Real student reviews') }}</span>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <form method="POST">
+        </div>
+
+        <div class="auth-right">
+            <div class="auth-form-wrap">
+                <div class="auth-form-header">
+                    <div class="auth-form-icon">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <h3 class="auth-form-title">{{ _('Login') }}</h3>
+                    <p class="auth-form-sub">{{ _('Enter your credentials to continue') }}</p>
+                </div>
+
+                <form method="POST" class="auth-form">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-                    <div class="mb-3">
-                        <label for="username" class="form-label">{{ _('Username') }}</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="{{ _('Enter your username') }}" required>
-                        <small class="text-muted">{{ _('Use the username you registered with.') }}</small>
+
+                    <div class="auth-field">
+                        <label for="username" class="auth-label">
+                            <i class="fas fa-user"></i> {{ _('Username') }}
+                        </label>
+                        <input type="text" class="auth-input" id="username" name="username"
+                               placeholder="{{ _('Enter your username') }}" required>
+                        <small class="auth-hint">{{ _('Use the username you registered with.') }}</small>
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">{{ _('Password') }}</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="{{ _('Enter your password') }}" required>
-                        <small class="text-muted">{{ _('Passwords are case-sensitive.') }}</small>
+
+                    <div class="auth-field">
+                        <label for="password" class="auth-label">
+                            <i class="fas fa-lock"></i> {{ _('Password') }}
+                        </label>
+                        <div class="auth-input-wrap">
+                            <input type="password" class="auth-input" id="password" name="password"
+                                   placeholder="{{ _('Enter your password') }}" required>
+                            <button type="button" class="auth-eye-btn">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <small class="auth-hint">{{ _('Passwords are case-sensitive.') }}</small>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">{{ _('Login') }}</button>
+
+                    <button type="submit" class="auth-submit-btn">
+                        <span>{{ _('Login') }}</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </form>
-                <hr>
-                <p class="text-center mb-0">
-                    {{ _("Don't have an account?") }} <a href="{{ url_for('auth.register') }}">{{ _('Register here') }}</a>
+
+                <div class="auth-divider"><span>{{ _('or') }}</span></div>
+
+                <p class="auth-switch">
+                    {{ _("Don't have an account?") }}
+                    <a href="{{ url_for('auth.register') }}" class="auth-switch-link">{{ _('Register here') }}</a>
                 </p>
             </div>
         </div>
+
     </div>
 </div>
+
+
 {% endblock %}
